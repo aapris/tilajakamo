@@ -1,4 +1,5 @@
-{% extends "base.html" %}
+{% extends "home/base.html" %}
+{% load wagtailcore_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -8,4 +9,7 @@
     <p>You can access the admin interface <a href="{% url 'wagtailadmin_home' %}">here</a> (make sure you have run "./manage.py createsuperuser" in the console first).
 
     <p>If you haven't already given the documentation a read, head over to <a href="http://wagtail.readthedocs.org/">http://wagtail.readthedocs.org</a> to start building on Wagtail</p>
+
+    {{ page.body|richtext }}
 {% endblock %}
+
