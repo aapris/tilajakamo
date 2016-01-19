@@ -307,7 +307,7 @@ StandardPage.promote_panels = Page.promote_panels + [
 # Room
 
 class RoomPage(Page):
-    free = models.BooleanField()
+    free = models.BooleanField(default=False)
     body = RichTextField(blank=True)
     member = models.ForeignKey('home.PersonPage',         
         null=True,
@@ -330,10 +330,10 @@ class RoomPage(Page):
 
 RoomPage.content_panels = [
     FieldPanel('title', classname="room number"),
-    FieldPanel('person', classname="member"),
-    InlinePanel('carousel_items', label="Carousel items"),
+    FieldPanel('member', classname="member"),
     FieldPanel('body', classname="description"),
-    InlinePanel('related_links', label="Related links"),
+    FieldPanel('free', classname="not rented"),
+
 ]
 
 RoomPage.promote_panels = Page.promote_panels + [
