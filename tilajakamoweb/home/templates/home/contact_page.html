@@ -1,4 +1,4 @@
-{% extends "demo/base.html" %}
+{% extends "home/base.html" %}
 
 {% load demo_tags wagtailcore_tags %}
 
@@ -9,7 +9,7 @@
         </div>
     {% endif %}
 
-    {% include "demo/includes/contact.html" with contact=self only %}
+    {% include "home/includes/contact.html" with contact=self only %}
 
     {%  if self.post_code %}
 

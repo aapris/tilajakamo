@@ -217,7 +217,14 @@ class HomePageRelatedLink(Orderable, RelatedLink):
 
 
 class HomePage(Page):
-    body = StreamField(HomeStreamBlock())
+    body = RichTextField(blank=True)
+    bg_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     search_fields = Page.search_fields + (
         index.SearchField('body'),
     )
@@ -227,9 +234,11 @@ class HomePage(Page):
 
 HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
-    StreamFieldPanel('body'),
+    FieldPanel('body', classname="text"),
+    ImageChooserPanel('bg_image'),
     InlinePanel('carousel_items', label="Carousel items"),
     InlinePanel('related_links', label="Related links"),
+
 ]
 
 HomePage.promote_panels = Page.promote_panels
@@ -240,6 +249,8 @@ HomePage.promote_panels = Page.promote_panels
 class StandardIndexPageRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('home.StandardIndexPage', related_name='related_links')
 
+
+# Standard page
 
 class StandardIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -266,7 +277,6 @@ StandardIndexPage.promote_panels = Page.promote_panels + [
 ]
 
 
-# Standard page
 
 class StandardPageCarouselItem(Orderable, CarouselItem):
     page = ParentalKey('home.StandardPage', related_name='carousel_items')
@@ -441,7 +451,7 @@ class BlogPageTag(TaggedItemBase):
 
 
 class BlogPage(Page):
-    body = StreamField(HomeStreamBlock())
+    body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField("Post date")
     feed_image = models.ForeignKey(
@@ -464,7 +474,7 @@ class BlogPage(Page):
 BlogPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('date'),
-    StreamFieldPanel('body'),
+    FieldPanel('body', classname="body"),
     InlinePanel('carousel_items', label="Carousel items"),
     InlinePanel('related_links', label="Related links"),
 ]

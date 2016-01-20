@@ -12,14 +12,37 @@
 
         <meta name="description" content="{% if self.search_description %}{{ self.search_description }}{% endif %}">
 
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
         {# External stylesheets #}
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+        {# <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" /> #}
 
         {# Local static assets such as css, images and javascrpt should be stored at [yourapp]/static/[yourapp]/... #}
         {% compress css %}
             {# Custom stylesheets #}
             {# SCSS compilation relies on django compressor #}
             <link rel="stylesheet" type="text/x-scss" href="{% static "home/css/main.scss" %}" />
+            <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{% static "home/css/bootstrap.min.css" %}" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static "home/font-awesome/css/font-awesome.min.css" %}" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="{% static "home/css/animate.min.css" %}" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static "home/css/creative.css" %}" type="text/css">
         {% endcompress %}
 
         {% block extra_css %}{% endblock %} {# Override this block in individual templates in order to add stylesheets on a template by template basis #}
@@ -45,7 +68,9 @@
 
     </head>
 
-    <body class="{% block body_class %}{% endblock %}"> {# Override this block to set custom body classes on a template by template basis #}
+    <body id="page-top" lass="{% block body_class %}{% endblock %}"> {# Override this block to set custom body classes on a template by template basis #}
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
 
         {% wagtailuserbar %}
 
@@ -53,22 +78,29 @@
             {% get_site_root as site_root %}
             {% top_menu parent=site_root calling_page=self %}
         {% endblock %}
+        </div>
+    </nav>
 
-        <div class="main container">
-
-            {% breadcrumbs %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
 
             {% block heading %}
-                <div class="page-header">
+                <div class="page-header" class="section-heading">
                     <h1>{{ self.title }}</h1>
                 </div>
             {% endblock %}
 
+            </div>
+        </div>
+    </header>
+                            {% breadcrumbs %}
+
+
             {% block content %}{% endblock %}
 
-            {% include 'home/includes/prev_next.html' %}
 
-        </div>
+            {% include 'home/includes/prev_next.html' %}
 
         {% adverts %}
 
@@ -81,6 +113,14 @@
             {# Custom javascript #}
             {# Local static assets such as css, images and javascrpt should be stored at [yourapp]/static/[yourapp]/... #}
             <script src="{% static "home/js/main.js" %}"></script>
+                <!-- Plugin JavaScript -->
+            <script src="{% static "home/js/jquery.easing.min.js" %}" ></script>
+            <script src="{% static "home/js/jquery.fittext.js" %}"></script>
+            <script src="{% static "homejs/wow.min.js" %}"></script>
+
+            <!-- Custom Theme JavaScript -->
+            <script src="{% static "home/js/creative.js"%}" ></script>
+
         {% endcompress %}
 
         {% block extra_js %}{% endblock %} {# Override this block in individual templates in order to add javascript on a template by template basis #}
