@@ -1,14 +1,35 @@
-{% extends "home/base.html" %}
-
+{% extends "demo/base.html" %}
 {% load wagtailcore_tags %}
 
-{% block body_class %}template-blogpage{% endblock %}
+
+{% block heading %}
+  <div class="page-header">
+
+    <div class="pull-right">
+      {% for tag in self.tags.all %}
+        <a href="{% pageurl self.blog_index %}?tag={{ tag }}"
+           class="btn btn-primary btn-xs">
+          <i class="glyphicon glyphicon-tag"></i> {{ tag }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <h2>
+      {{ self.title }}
+      {% if self.date %}<small>{{ self.date }}</small>{% endif %}
+    </h2>
+
+  </div>
+{% endblock %}
 
 {% block content %}
-    <h1>{{ self.title }}</h1>
-    <p class="meta">{{ self.date }}</p>
+    {% include "demo/includes/carousel.html" with carousel_items=self.carousel_items.all only %}
 
-    <div class="intro">{{ self.intro }}</div>
+    {% if self.body %}
+        <div class="body-content">
+            {% include "demo/includes/streamfield.html" with content=self.body %}
+        </div>
+    {% endif %}
 
-    {{ self.body|richtext }}
+    {% include "demo/includes/related_links.html" with related_links=self.related_links.all only %}
 {% endblock %}

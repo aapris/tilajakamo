@@ -340,21 +340,35 @@ RoomPage.promote_panels = Page.promote_panels + [
     ImageChooserPanel('feed_image'),
 ]
 
+class RoomIndexPage(Page):
+    body = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('title'),
+        index.SearchField('member'),
+        index.SearchField('body'),
+    )
+
 # FAQ
 class FAQPage(Page):
-    question = RichTextField()
-    reply = RichTextField()
+    body = RichTextField()
+
+    search_fields = Page.search_fields + (
+        index.SearchField('body'),
+    )
+
+FAQPage.content_panels = [
+    FieldPanel('title', classname="Question"),
+    FieldPanel('body', classname="Reply"),
+    ]     
+
+class FAQIndexPage(Page):
+    question = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('question'),
         index.SearchField('reply'),
     )
-
-FAQPage.content_panels = [
-    FieldPanel('question', classname="Question"),
-    FieldPanel('reply', classname="Reply"),
-    ]     
-
 
 # Blog index page
 
@@ -499,6 +513,16 @@ class PersonPage(Page, ContactFields):
         index.SearchField('intro'),
         index.SearchField('biography'),
     )
+
+class PersonIndexPage(Page):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    room = models.ForeignKey('home.RoomPage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )  
 
 PersonPage.content_panels = [
     FieldPanel('title', classname="full title"),
