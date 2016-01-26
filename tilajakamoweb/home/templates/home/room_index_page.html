@@ -1,6 +1,15 @@
 {% extends "home/base.html" %}
 {% load wagtailcore_tags demo_tags %}
 
+{% block extra_css %}
+        <style type="text/css">
+        header {
+            background-image: url("");
+            min-height: 0;
+        }
+        </style>
+{% endblock %}
+
 {% block content %}
     {% include "home/includes/intro.html" with intro=self.intro only %}
 

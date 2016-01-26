@@ -2,6 +2,19 @@
 
 {% load wagtailcore_tags %}
 
+{% block extra_css %}
+        {% image self.feed_image width-2000 as bg_image %}
+
+        <style type="text/css">
+        header {
+            background-image: url("{{ bg_image.url }}");
+        }
+
+        .well {
+            background: transparent url("{% static "home/img/transpBrown50.png" %}");
+        }
+        </style>
+{% endblock %}
 {% block content %}
     {% include "home/includes/intro.html" with intro=self.intro only %}
 

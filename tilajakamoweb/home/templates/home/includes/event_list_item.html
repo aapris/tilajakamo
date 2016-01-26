@@ -1,11 +1,11 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {# Individual event item in a list - used on event index and home page #}
-<a class="list-group-item col-md-3" style="min-height:170px;margin:20px" href="{% pageurl event %}">
+<a class="col-md-3" style="min-height:170px;margin:20px;background-color:#FFF;padding: 12px" href="{% pageurl event %}">
   <div class="media">
     {% if event.feed_image %}
       <div class="media-left">
-        {% image event.feed_image width-200 as img %}
+        {% image event.feed_image width-100 as img %}
         <img class="media-object" src="{{ img.url }}" />
       </div>
     {% else %}

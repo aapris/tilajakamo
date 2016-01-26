@@ -2,15 +2,10 @@
 {% load wagtailcore_tags static demo_tags wagtailimages_tags %}
 
 {% block extra_css %}
-		{% image self.feed_image width-2000 as bg_image %}
-
         <style type="text/css">
         header {
-            background-image: url("{{ bg_image.url }}");
-        }
-
-        .well {
-	        background: transparent url("{% static "home/img/transpBrown50.png" %}");
+            background-image: url("");
+            min-height: 0;
         }
         </style>
 {% endblock %}

@@ -12,11 +12,16 @@
         .well {
             background: transparent url("{% static "home/img/transpBrown50.png" %}");
         }
+
+        #news a, #events a {
+            background: transparent url("{% static "home/img/transpBrown10.png" %}");
+            padding: 10px;
+        }
         </style>
 {% endblock %}
 
 {% block heading %}
-    <div class="page-header" class="section-heading">
+    <div class="page-header section-heading">
         <h1>{{ self.title }}</h1>
         {% include "home/includes/intro.html" with intro=self.body only %}
         
@@ -29,7 +34,7 @@
 
     {# {% person_listing_homepage %} #}
 
-<section class="" id="news">
+<section class="" id="news" style="padding:10px 10px">
         <h2 class="section-heading">Uutisia</h2>
         <div class="container">
             <div class="row">
@@ -40,15 +45,16 @@
         </div>
         </section>
 
-<section class="bg-primary" id="events">
+<section class="bg-primary" id="events" style="padding:10px 10px">
         <h2 class="section-heading">Tapahtumia</h2>
         <div class="container">
             <div class="row">
 
     {% event_listing_homepage %}
-
-            </div>
         </div>
-        </section>
+    </div>
+</section>
+
+
 
 {% endblock %}

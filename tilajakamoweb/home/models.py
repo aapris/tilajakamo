@@ -289,6 +289,7 @@ class StandardPageRelatedLink(Orderable, RelatedLink):
 class StandardPage(Page):
     intro = RichTextField(blank=True)
     body = RichTextField(blank=True)
+    public = models.BooleanField(default=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -305,8 +306,10 @@ class StandardPage(Page):
 StandardPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
-    InlinePanel('carousel_items', label="Carousel items"),
+    FieldPanel('public', classname="public"),
+    # InlinePanel('carousel_items', label="Carousel items"),
     FieldPanel('body', classname="full"),
+    ImageChooserPanel('feed_image'),
     InlinePanel('related_links', label="Related links"),
 ]
 
@@ -319,6 +322,7 @@ StandardPage.promote_panels = Page.promote_panels + [
 class RoomPage(Page):
     free = models.BooleanField(default=False)
     body = RichTextField(blank=True)
+    public = models.BooleanField(default=True)
     member = models.ForeignKey('home.PersonPage',         
         null=True,
         blank=True,
@@ -341,6 +345,7 @@ class RoomPage(Page):
 RoomPage.content_panels = [
     FieldPanel('title', classname="room number"),
     FieldPanel('member', classname="member"),
+    FieldPanel('public', classname="public"),
     FieldPanel('body', classname="description"),
     FieldPanel('free', classname="not rented"),
 
@@ -352,7 +357,13 @@ RoomPage.promote_panels = Page.promote_panels + [
 
 class RoomIndexPage(Page):
     body = RichTextField(blank=True)
-
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     search_fields = Page.search_fields + (
         index.SearchField('title'),
         index.SearchField('member'),
@@ -362,21 +373,30 @@ class RoomIndexPage(Page):
 # FAQ
 class FAQPage(Page):
     body = RichTextField()
-
+    public = models.BooleanField(default=True)
     search_fields = Page.search_fields + (
         index.SearchField('body'),
     )
 
 FAQPage.content_panels = [
     FieldPanel('title', classname="Question"),
+    FieldPanel('public', classname="public"),
     FieldPanel('body', classname="Reply"),
+    ImageChooserPanel('feed_image'),
     ]     
 
 class FAQIndexPage(Page):
     question = RichTextField(blank=True)
-
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     search_fields = Page.search_fields + (
         index.SearchField('question'),
+        ImageChooserPanel('feed_image'),
         index.SearchField('reply'),
     )
 
@@ -388,7 +408,13 @@ class BlogIndexPageRelatedLink(Orderable, RelatedLink):
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
-
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
@@ -430,6 +456,7 @@ class BlogIndexPage(Page):
 BlogIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
+    ImageChooserPanel('feed_image'),
     InlinePanel('related_links', label="Related links"),
 ]
 
@@ -453,6 +480,7 @@ class BlogPageTag(TaggedItemBase):
 class BlogPage(Page):
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    public = models.BooleanField(default=True)
     date = models.DateField("Post date")
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -475,7 +503,8 @@ BlogPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('date'),
     FieldPanel('body', classname="body"),
-    InlinePanel('carousel_items', label="Carousel items"),
+    FieldPanel('public', classname="public"),    
+    # InlinePanel('carousel_items', label="Carousel items"),
     InlinePanel('related_links', label="Related links"),
 ]
 
@@ -494,6 +523,7 @@ class PersonPageRelatedLink(Orderable, RelatedLink):
 class PersonPage(Page, ContactFields):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    public = models.BooleanField(default=True)    
     room = models.ForeignKey('home.RoomPage',
         null=True,
         blank=True,
@@ -524,21 +554,13 @@ class PersonPage(Page, ContactFields):
         index.SearchField('biography'),
     )
 
-class PersonIndexPage(Page):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    room = models.ForeignKey('home.RoomPage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )  
 
 PersonPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('first_name', classname="first name"),
     FieldPanel('last_name', classname="last name"),
     FieldPanel('room', classname="room #"),
+    FieldPanel('public', classname="public"),
     FieldPanel('intro', classname="full"),
     FieldPanel('biography', classname="full"),
     ImageChooserPanel('image'),
@@ -550,6 +572,28 @@ PersonPage.promote_panels = Page.promote_panels + [
     ImageChooserPanel('feed_image'),
 ]
 
+class PersonIndexPage(Page):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    intro = RichTextField(blank=True)
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    room = models.ForeignKey('home.RoomPage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )  
+PersonIndexPage.content_panels = [
+    ImageChooserPanel('feed_image'),
+    FieldPanel('intro', classname="intro"),
+
+]
 
 # Contact page
 
@@ -586,7 +630,13 @@ class EventIndexPageRelatedLink(Orderable, RelatedLink):
 
 class EventIndexPage(Page):
     intro = RichTextField(blank=True)
-
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
@@ -608,6 +658,7 @@ class EventIndexPage(Page):
 EventIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro', classname="full"),
+    ImageChooserPanel('feed_image'),
     InlinePanel('related_links', label="Related links"),
 ]
 
