@@ -17,10 +17,15 @@
         .news a {
             background: transparent url("{% static "home/img/transpBrown10.png" %}");
             padding: 10px;
+        }
         </style>
 {% endblock %}
 
 {% block content %}
+<section class="" id="news" style="padding:10px 10px">
+        <h2 class="section-heading">Uutisia</h2>
+        <div class="container">
+            <div class="row">
 
     {% if request.GET.tag|length %}
         <h4>Showing posts tagged as {{ request.GET.tag|safe }} <a href=" {% pageurl self %} ">Show all</a></h4>
@@ -37,7 +42,9 @@
             No blogs found
         {% endfor %}
     </div>
-
+</div>
+</div>
+</section>
     {# Pagination - uses django.core.paginator #}
     {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
     <section style="clear:both">
