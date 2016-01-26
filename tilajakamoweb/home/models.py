@@ -371,22 +371,42 @@ class RoomIndexPage(Page):
     )
 
 # FAQ
+
+class FAQPageTag(TaggedItemBase):
+    content_object = ParentalKey('home.FAQPage', related_name='tagged_items')
+
 class FAQPage(Page):
     body = RichTextField()
     public = models.BooleanField(default=True)
+    tags = ClusterTaggableManager(through=FAQPageTag, blank=True)
+
+
     search_fields = Page.search_fields + (
+        index.SearchField('title'),
         index.SearchField('body'),
     )
+
+    @property
+    def faq_index(self):
+        # Find closest ancestor which is a faq index
+        return self.get_ancestors().type(FAQIndexPage).last()
 
 FAQPage.content_panels = [
     FieldPanel('title', classname="Question"),
     FieldPanel('public', classname="public"),
     FieldPanel('body', classname="Reply"),
-    ImageChooserPanel('feed_image'),
     ]     
 
+FAQPage.promote_panels = Page.promote_panels + [
+    FieldPanel('tags'),
+]
+#FAQ index page
+class FAQIndexPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.FAQIndexPage', related_name='related_links')
+
+
 class FAQIndexPage(Page):
-    question = RichTextField(blank=True)
+    intro = RichTextField(blank=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -394,11 +414,41 @@ class FAQIndexPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+
+
     search_fields = Page.search_fields + (
-        index.SearchField('question'),
-        ImageChooserPanel('feed_image'),
-        index.SearchField('reply'),
+        index.SearchField('intro'),
     )
+
+    @property
+    def faqs(self):
+        # Get list of live blog pages that are descendants of this page
+        faqs = FAQPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        faqs = faqs.order_by('title')
+
+        return faqs
+
+    def get_context(self, request):
+        # Get faqs
+        faqs = self.faqs
+
+        # Filter by tag
+        tag = request.GET.get('tag')
+        if tag:
+            faqs = faqs.filter(tags__name=tag)
+
+
+FAQIndexPage.promote_panels = Page.promote_panels
+
+FAQIndexPage.content_panels = [
+    FieldPanel('title', classname="title"),
+    FieldPanel('intro', classname="intro"),
+    ImageChooserPanel('feed_image'),
+    InlinePanel('related_links', label="Related links"),
+
+    ]
 
 # Blog index page
 
