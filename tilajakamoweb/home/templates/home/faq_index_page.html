@@ -20,30 +20,21 @@
         }
         </style>
 {% endblock %}
+
 {% block content %}
-<section class="news" style="padding:10px 10px">
-        <div class="container">
-            <div class="row">
-    {% if request.GET.tag|length %}
-        <h4>Showing posts tagged as {{ request.GET.tag|safe }} </h4>
-    {% endif %}
+    <section class="news" style="padding:10px 10px">
+            <div class="container">
+                <div class="row">
 
-    <div class="list-group news">
-        {# Uses serve method defined in models.py - allows for paging if required #}
-        {# See also standard index for creating a listing with a tag #}
-        {% for faq in faqs %}
-            {% if request.user.is_authenticated or faq.public %}
-                {% include "home/includes/faq_list_item.html" %}
-            {% endif %}
-        {% empty %}
-            No blogs found
-        {% endfor %}
-    </div>
+            <div class="list-group news">
+                {# Uses serve method defined in models.py - allows for paging if required #}
+                {# See also standard index for creating a listing with a tag #}
+                    {% standard_index_listing calling_page=self %}
 
-    {# Pagination - uses django.core.paginator #}
-    {# Append any other url query string variables to the next and previous links - allows tag to be passed through #}
-    </div>
-    </div>
+            </div>
+
+            </div>
+        </div>
     </section>
-    {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+    {# {% include "home/includes/related_links.html" with related_links=self.related_links.all only %} #}
 {% endblock %}

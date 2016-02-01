@@ -11,23 +11,36 @@
 {% endblock %}
 
 {% block content %}
-    {% include "home/includes/intro.html" with intro=self.intro only %}
-
+<section>
+<div class="container">
     {% if self.image %}
+    <div clss="well col-lg-4" style="float:right">
         {% image self.image width-300 class="img-thumbnail" %}
+    </div>
     {% endif %}
 
-    {% if self.biography %}
-        <div class="page-header"><h3>Biography</h3></div>
-    {% endif %}
+<div class="row col-lg-8 col-md-8 col-xs-12">
 
-    {% if self.body %}
-        <div class="body-content">
-            {{ self.body|richtext }}
-        </div>
-    {% endif %}
+    {% include "home/includes/intro.html" with intro=self.intro only %}
+    <h4>{{ self.title }}</h4>
+    <h3>{{ self.first_name }} {{ self.last_name }}</h3>
+    <h4>Telegram: {{ self.telegram }}</h4>
+    <h3>#: {{ self.room }}</h3>
 
-    {% include "home/includes/contact.html" with contact=self only %}
+    {% if request.user.is_authenticated or self.public %}
+        {% if self.biography %}
+            <div class="page-header"><h3>Biography</h3></div>
+        {% endif %}
 
+        {% if self.body %}
+            <div class="body-content">
+                {{ self.body|richtext }}
+            </div>
+        {% endif %}
+
+        {% include "home/includes/contact.html" with contact=self only %}
+        {% endif %}
     {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+    </div></div></section>
+
 {% endblock %}

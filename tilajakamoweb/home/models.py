@@ -370,91 +370,8 @@ class RoomIndexPage(Page):
         index.SearchField('body'),
     )
 
-# FAQ
-
-class FAQPageTag(TaggedItemBase):
-    content_object = ParentalKey('home.FAQPage', related_name='tagged_items')
-
-class FAQPage(Page):
-    body = RichTextField()
-    public = models.BooleanField(default=True)
-    tags = ClusterTaggableManager(through=FAQPageTag, blank=True)
-
-
-    search_fields = Page.search_fields + (
-        index.SearchField('title'),
-        index.SearchField('body'),
-    )
-
-    @property
-    def faq_index(self):
-        # Find closest ancestor which is a faq index
-        return self.get_ancestors().type(FAQIndexPage).last()
-
-FAQPage.content_panels = [
-    FieldPanel('title', classname="Question"),
-    FieldPanel('public', classname="public"),
-    FieldPanel('body', classname="Reply"),
-    ]     
-
-FAQPage.promote_panels = Page.promote_panels + [
-    FieldPanel('tags'),
-]
-#FAQ index page
-class FAQIndexPageRelatedLink(Orderable, RelatedLink):
-    page = ParentalKey('home.FAQIndexPage', related_name='related_links')
-
-
-class FAQIndexPage(Page):
-    intro = RichTextField(blank=True)
-    feed_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-
-    search_fields = Page.search_fields + (
-        index.SearchField('intro'),
-    )
-
-    @property
-    def faqs(self):
-        # Get list of live blog pages that are descendants of this page
-        faqs = FAQPage.objects.live().descendant_of(self)
-
-        # Order by most recent date first
-        faqs = faqs.order_by('title')
-
-        return faqs
-
-    def get_context(self, request):
-        # Get faqs
-        faqs = self.faqs
-
-        # Filter by tag
-        tag = request.GET.get('tag')
-        if tag:
-            faqs = faqs.filter(tags__name=tag)
-
-
-FAQIndexPage.promote_panels = Page.promote_panels
-
-FAQIndexPage.content_panels = [
-    FieldPanel('title', classname="title"),
-    FieldPanel('intro', classname="intro"),
-    ImageChooserPanel('feed_image'),
-    InlinePanel('related_links', label="Related links"),
-
-    ]
 
 # Blog index page
-
-class BlogIndexPageRelatedLink(Orderable, RelatedLink):
-    page = ParentalKey('home.BlogIndexPage', related_name='related_links')
-
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -512,6 +429,9 @@ BlogIndexPage.content_panels = [
 
 BlogIndexPage.promote_panels = Page.promote_panels
 
+# class BlogIndexPageRelatedLink(Orderable, RelatedLink):
+#     page = ParentalKey('home.BlogIndexPage', related_name='related_links')
+
 
 # Blog page
 
@@ -563,6 +483,126 @@ BlogPage.promote_panels = Page.promote_panels + [
     FieldPanel('tags'),
 ]
 
+# Blog index page
+
+class BlogIndexPage(Page):
+    intro = RichTextField(blank=True)
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+    @property
+    def blogs(self):
+        # Get list of live blog pages that are descendants of this page
+        blogs = BlogPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        blogs = blogs.order_by('-date')
+
+        return blogs
+
+    def get_context(self, request):
+        # Get blogs
+        blogs = self.blogs
+
+        # Filter by tag
+        tag = request.GET.get('tag')
+        if tag:
+            blogs = blogs.filter(tags__name=tag)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(blogs, 10)  # Show 10 blogs per page
+        try:
+            blogs = paginator.page(page)
+        except PageNotAnInteger:
+            blogs = paginator.page(1)
+        except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(BlogIndexPage, self).get_context(request)
+        context['blogs'] = blogs
+        return context
+
+BlogIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+    ImageChooserPanel('feed_image'),
+    InlinePanel('related_links', label="Related links"),
+]
+
+BlogIndexPage.promote_panels = Page.promote_panels
+
+class BlogIndexPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.BlogIndexPage', related_name='related_links')
+
+
+# FAQ page
+
+class FAQPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.FAQPage', related_name='related_links')
+
+class BlogPageTag(TaggedItemBase):
+    content_object = ParentalKey('home.FAQPage', related_name='tagged_items')
+
+
+class FAQPage(Page):
+    body = RichTextField(blank=True)
+    public = models.BooleanField(default=True)
+    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    search_fields = Page.search_fields + (
+        index.SearchField('body'),
+        index.SearchField('free'),
+    )
+
+FAQPage.content_panels = [
+    FieldPanel('title', classname="Question"),
+    FieldPanel('public', classname="Public"),
+    FieldPanel('body', classname="Anwser"),
+    FieldPanel('tags', classname="Tagit"),
+    InlinePanel('related_links', label="Related links"),
+
+]
+
+FAQPage.promote_panels = Page.promote_panels + [
+    ImageChooserPanel('feed_image'),
+]
+
+class FAQIndexPage(Page):
+    intro = RichTextField(blank=True)
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    search_fields = Page.search_fields + (
+        index.SearchField('title'),
+        index.SearchField('body'),
+    )
+
+FAQIndexPage.content_panels = [
+    FieldPanel('intro', classname="intro"),
+    ImageChooserPanel('feed_image'),
+    
+]
 
 # Person page
 
@@ -573,6 +613,7 @@ class PersonPageRelatedLink(Orderable, RelatedLink):
 class PersonPage(Page, ContactFields):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    telegram = models.CharField(blank=True, max_length=255)
     public = models.BooleanField(default=True)    
     room = models.ForeignKey('home.RoomPage',
         null=True,
@@ -589,17 +630,11 @@ class PersonPage(Page, ContactFields):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    feed_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
 
     search_fields = Page.search_fields + (
         index.SearchField('first_name'),
         index.SearchField('last_name'),
+        index.SearchField('telegram'),
         index.SearchField('intro'),
         index.SearchField('biography'),
     )
@@ -609,9 +644,10 @@ PersonPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('first_name', classname="first name"),
     FieldPanel('last_name', classname="last name"),
+    FieldPanel('telegram', classname="telegram contact"),
     FieldPanel('room', classname="room #"),
     FieldPanel('public', classname="public"),
-    FieldPanel('intro', classname="full"),
+    FieldPanel('intro', classname="telegram intro"),
     FieldPanel('biography', classname="full"),
     ImageChooserPanel('image'),
     MultiFieldPanel(ContactFields.panels, "Contact"),
@@ -619,7 +655,6 @@ PersonPage.content_panels = [
 ]
 
 PersonPage.promote_panels = Page.promote_panels + [
-    ImageChooserPanel('feed_image'),
 ]
 
 class PersonIndexPage(Page):

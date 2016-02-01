@@ -41,7 +41,7 @@
             <div class="page-header"><h3>Speakers</h3></div>
                 {% for speaker in speakers %}
                     {% cycle '<div class="row">' '' '' %} {# Open row div before first speaker then every 3 loops #}
-                        <div class="col-sm-4">
+                        <div class="col-xs-8">
 
                             {% if speaker.link %}
                                 <a href="{{ speaker.link }}">

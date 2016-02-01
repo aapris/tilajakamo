@@ -50,15 +50,15 @@
     <section style="clear:both">
     <div class="container">
     <div class="row">
-        <div class="col-sm-4 previous">
+        <div class="col-xs-8 previous">
             {% if blogs.has_previous %}
                 <a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
             {% endif %}
         </div>
-        <div class="col-sm-4 pages">
+        <div class="col-xs-8 pages">
             Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}
         </div>
-        <div class="col-sm-4 next">
+        <div class="col-xs-8 next">
             {% if blogs.has_next %}
                 <a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
             {% endif %}

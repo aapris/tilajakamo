@@ -72,6 +72,18 @@ def standard_index_listing(context, calling_page):
         'request': context['request'],
     }
 
+@register.inclusion_tag(
+    'home/tags/person_index_listing.html',
+    takes_context=True
+)
+def person_index_listing(context, calling_page):
+    pages = calling_page.get_children().live()
+    return {
+        'pages': pages,
+        # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }
+
 
 # Person feed for home page
 @register.inclusion_tag(

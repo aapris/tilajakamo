@@ -12,15 +12,28 @@
 {% endblock %}
 
 {% block content %}
+<section class="news " style="padding:10px 10px">
+        <div class="container">
+            <div class="row col-lg-8 row-centered">
+
     {% include "home/includes/intro.html" with intro=self.intro only %}
 
     {# {% include "home/includes/carousel.html" with carousel_items=self.carousel_items.all only %} #}
-    
+
+    <h2>{{ self.title }}</h2>
+
+
     {% if self.body %}
         <div class="body-content">
             {{ self.body|richtext }}
+            {% if self.feed_image %}
+                {{ self.feed_image }}
+            {% endif %}
         </div>
     {% endif %}
 
     {# {% include "home/includes/related_links.html" with related_links=self.related_links.all only %} #}
+    </div>
+    </div>
+</section>
 {% endblock %}
