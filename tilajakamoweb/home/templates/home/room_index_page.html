@@ -31,14 +31,14 @@
     {% for room in rooms %}
 
                 {% if request.user.is_authenticated or room.public %}
-            <a class="list-group-item col-lg-8 col-md-6 col-sx-12" href="{% pageurl room %}">
+            <a class="list-group-item col-lg-3 col-md-6 col-sx-12" href="{% pageurl room %}">
+                <h4 class="list-group-item-heading">#{{ room.title }}</h4>
             {% if room.feed_image %}
               <div class="media-left">
-                {% image room.feed_image width-200 as img %}
+                {% image room.feed_image width-270 as img %}
                 <img class="media-object" src="{{ img.url }}" />
               </div>
              {% endif %}
-                <h4 class="list-group-item-heading">{{ room.title }}</h4>
                 {% if room.search_description %}
                     <p class="list-group-item-text">{{ room.search_description }}</p>
                 {% endif %}

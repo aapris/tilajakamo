@@ -342,17 +342,20 @@ class RoomPage(Page):
 
 RoomPage.content_panels = [
     FieldPanel('title', classname="room number"),
-    FieldPanel('member', classname="member"),
     FieldPanel('public', classname="public"),
     FieldPanel('body', classname="description"),
-    FieldPanel('free', classname="not rented"),
+    ImageChooserPanel('feed_image'),
+
 ]
 
 RoomPage.promote_panels = Page.promote_panels + [
-    ImageChooserPanel('feed_image'),
+    FieldPanel('member', classname="member"),
+    FieldPanel('free', classname="not rented"),    
 ]
 
 class RoomIndexPage(Page):
+    subpage_types = ['home.RoomPage']
+
     intro = RichTextField(blank=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -374,14 +377,18 @@ class RoomIndexPage(Page):
         # Order by most recent date first
         rooms = rooms.order_by('title')
 
-    @property
-    def rooms(self):
-        # Get list of live blog pages that are descendants of this page
-        rooms = RoomPage.objects.live().descendant_of(self)
+        return rooms
 
-        # Order by most recent date first
-        rooms = rooms.order_by('-date')
+    # @property
+    # def rooms(self):
+    #     # Get list of live blog pages that are descendants of this page
+    #     rooms = RoomPage.objects.live().descendant_of(self)
 
+    #     # Order by most recent date first
+    #     rooms = rooms.order_by('-date')
+
+    #     return rooms
+        
 RoomIndexPage.content_panels = Page.content_panels + [
     FieldPanel('intro', classname="intro"),
     ImageChooserPanel('feed_image'),
@@ -430,12 +437,13 @@ BlogPage.content_panels = [
     FieldPanel('body', classname="body"),
     FieldPanel('public', classname="public"),    
     # InlinePanel('carousel_items', label="Carousel items"),
-    InlinePanel('related_links', label="Related links"),
+    ImageChooserPanel('feed_image'),
+
 ]
 
 BlogPage.promote_panels = Page.promote_panels + [
-    ImageChooserPanel('feed_image'),
     FieldPanel('tags'),
+    InlinePanel('related_links', label="Related links"),
 ]
 
 # Blog index page
@@ -562,6 +570,8 @@ class FAQIndexPage(Page):
         # Order by most recent date first
         FAQ = FAQ.order_by('title')
 
+        return FAQ
+
     @property
     def FAQ(self):
         # Get list of live blog pages that are descendants of this page
@@ -632,6 +642,8 @@ PersonPage.promote_panels = Page.promote_panels + [
 ]
 
 class PersonIndexPage(Page):
+    subpage_types = ['home.PersonPage']
+
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     intro = RichTextField(blank=True)
@@ -656,14 +668,17 @@ class PersonIndexPage(Page):
         # Order by most recent date first
         persons = persons.order_by('title')
 
-    @property
-    def persons(self):
-        # Get list of live blog pages that are descendants of this page
-        persons = PersonPage.objects.live().descendant_of(self)
+        return persons
 
-        # Order by most recent date first
-        persons = persons.order_by('title')
+    # @property
+    # def persons(self):
+    #     # Get list of live blog pages that are descendants of this page
+    #     persons = PersonPage.objects.live().descendant_of(self)
 
+    #     # Order by most recent date first
+    #     persons = persons.order_by('title')
+
+    #     return persons
 
 PersonIndexPage.content_panels = [
     FieldPanel('title', classname="title"),
@@ -837,15 +852,15 @@ EventPage.content_panels = [
     FieldPanel('location'),
     FieldPanel('audience'),
     FieldPanel('cost'),
-    FieldPanel('signup_link'),
-    InlinePanel('carousel_items', label="Carousel items"),
     FieldPanel('body', classname="full"),
-    InlinePanel('speakers', label="Speakers"),
-    InlinePanel('related_links', label="Related links"),
+    ImageChooserPanel('feed_image'),
+
 ]
 
 EventPage.promote_panels = Page.promote_panels + [
-    ImageChooserPanel('feed_image'),
+    FieldPanel('signup_link'),
+    InlinePanel('speakers', label="Speakers"),
+    InlinePanel('related_links', label="Related links"),
 ]
 
 
