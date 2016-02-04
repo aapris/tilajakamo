@@ -594,6 +594,8 @@ FAQPage.promote_panels = Page.promote_panels + [
 ]
 
 class FAQIndexPage(Page):
+    subpage_types = ['home.FAQPage']
+
     intro = RichTextField(blank=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -607,6 +609,9 @@ class FAQIndexPage(Page):
         index.SearchField('body'),
     )
 
+    def faqs(self):
+        return FAQPage.objects.live()
+
     @property
     def FAQ(self):
         # Get list of live blog pages that are descendants of this page
@@ -614,6 +619,7 @@ class FAQIndexPage(Page):
 
         # Order by most recent date first
         FAQ = FAQ.order_by('title')
+        return FAQ
 
 FAQIndexPage.content_panels = [
     FieldPanel('intro', classname="intro"),
