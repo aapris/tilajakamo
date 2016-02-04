@@ -25,24 +25,28 @@
     <section class="news" style="padding:10px 10px">
             <div class="container">
                 <div class="row">
-
-
             <div class="list-group news">
-
-<p>{{ self.intro|safe }}</p>
 
 {% with faqs=self.faqs %}
     {% for faq in faqs %}
-        {% if request.user.is_authenticated or faq.public %}
-        <strong>{{ faq.title }}</strong> Julkinen: {{ faq.public }}<br>
-        {% endif %}
+
+                {% if request.user.is_authenticated or faq.public %}
+            <a class="list-group-item col-lg-8 col-md-6 col-sx-12" href="{% pageurl page %}">
+            {% if faq.feed_image %}
+              <div class="media-left">
+                {% image faq.feed_image width-200 as img %}
+                <img class="media-object" src="{{ img.url }}" />
+              </div>
+             {% endif %}
+                <h4 class="list-group-item-heading">{{ faq.title }}</h4>
+                {% if faq.search_description %}
+                    <p class="list-group-item-text">{{ faq.search_description }}</p>
+                {% endif %}
+            </a>
+            {% endif %}
     {% endfor %}
 {% endwith %}
-                {# Uses serve method defined in models.py - allows for paging if required #}
-                {# See also standard index for creating a listing with a tag #}
-{% comment %}
-                    {% standard_index_listing calling_page=self %}
-{% endcomment %}
+
 
             </div>
 

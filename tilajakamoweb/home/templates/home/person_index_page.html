@@ -1,21 +1,56 @@
 {% extends "home/base.html" %}
-{% load wagtailcore_tags demo_tags %}
+
+{% load wagtailcore_tags demo_tags wagtailimages_tags static %}
 
 {% block extra_css %}
+        {% image self.feed_image width-2000 as bg_image %}
+
         <style type="text/css">
         header {
-            background-image: url("");
-            min-height: 0;
+            background-image: url("{{ bg_image.url }}");
+        }
+
+        .well {
+            background: transparent url("{% static "home/img/transpBrown50.png" %}");
+        }
+
+        .news a {
+            background: transparent url("{% static "home/img/transpBrown10.png" %}");
+            padding: 10px;
         }
         </style>
 {% endblock %}
 
 {% block content %}
-    {% include "home/includes/intro.html" with intro=self.intro only %}
+    <section class="news" style="padding:10px 10px">
+            <div class="container">
+                <div class="row">
+            <div class="list-group news">
 
-    {# Listing created with a tag - allows filtering by whether the page is live #}
-    {# See also the blog index or events index where the listing is created from a method defined in models.py #}
-    {% person_index_listing calling_page=self %}
+{% with persons=self.persons %}
+    {% for person in persons %}
 
-    {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+                {% if request.user.is_authenticated or person.public %}
+            <a class="list-group-item col-lg-6 col-md-4 col-sx-12" href="{% pageurl person %}">
+            {% if person.feed_image %}
+              <div class="media-left">
+                {% image person.feed_image width-200 as img %}
+                <img class="media-object" src="{{ img.url }}" />
+              </div>
+             {% endif %}
+                <h4 class="list-group-item-heading">{{ person.title }}</h4>
+                {% if person.search_description %}
+                    <p class="list-group-item-text">{{ person.search_description }}</p>
+                {% endif %}
+            </a>
+            {% endif %}
+    {% endfor %}
+{% endwith %}
+
+            </div>
+
+            </div>
+        </div>
+    </section>
+    {# {% include "home/includes/related_links.html" with related_links=self.related_links.all only %} #}
 {% endblock %}

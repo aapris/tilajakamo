@@ -236,8 +236,6 @@ HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('body', classname="text"),
     ImageChooserPanel('bg_image'),
-    InlinePanel('carousel_items', label="Carousel items"),
-    InlinePanel('related_links', label="Related links"),
 
 ]
 
@@ -355,7 +353,7 @@ RoomPage.promote_panels = Page.promote_panels + [
 ]
 
 class RoomIndexPage(Page):
-    body = RichTextField(blank=True)
+    intro = RichTextField(blank=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -369,6 +367,13 @@ class RoomIndexPage(Page):
         index.SearchField('body'),
     )
 
+    def rooms(self):
+        # Get list of live blog pages that are descendants of this page
+        rooms = RoomPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        rooms = rooms.order_by('title')
+
     @property
     def rooms(self):
         # Get list of live blog pages that are descendants of this page
@@ -376,70 +381,11 @@ class RoomIndexPage(Page):
 
         # Order by most recent date first
         rooms = rooms.order_by('-date')
-RoomIndexPage.promote_panels = Page.promote_panels + [
+
+RoomIndexPage.content_panels = Page.content_panels + [
+    FieldPanel('intro', classname="intro"),
     ImageChooserPanel('feed_image'),
 ]
-
-# Blog index page
-
-class BlogIndexPage(Page):
-    intro = RichTextField(blank=True)
-    feed_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    search_fields = Page.search_fields + (
-        index.SearchField('intro'),
-    )
-
-    @property
-    def blogs(self):
-        # Get list of live blog pages that are descendants of this page
-        blogs = BlogPage.objects.live().descendant_of(self)
-
-        # Order by most recent date first
-        blogs = blogs.order_by('-date')
-
-        return blogs
-
-    def get_context(self, request):
-        # Get blogs
-        blogs = self.blogs
-
-        # Filter by tag
-        tag = request.GET.get('tag')
-        if tag:
-            blogs = blogs.filter(tags__name=tag)
-
-        # Pagination
-        page = request.GET.get('page')
-        paginator = Paginator(blogs, 10)  # Show 10 blogs per page
-        try:
-            blogs = paginator.page(page)
-        except PageNotAnInteger:
-            blogs = paginator.page(1)
-        except EmptyPage:
-            blogs = paginator.page(paginator.num_pages)
-
-        # Update template context
-        context = super(BlogIndexPage, self).get_context(request)
-        context['blogs'] = blogs
-        return context
-
-BlogIndexPage.content_panels = [
-    FieldPanel('title', classname="full title"),
-    FieldPanel('intro', classname="full"),
-    ImageChooserPanel('feed_image'),
-    InlinePanel('related_links', label="Related links"),
-]
-
-BlogIndexPage.promote_panels = Page.promote_panels
-
-# class BlogIndexPageRelatedLink(Orderable, RelatedLink):
-#     page = ParentalKey('home.BlogIndexPage', related_name='related_links')
 
 
 # Blog page
@@ -610,7 +556,11 @@ class FAQIndexPage(Page):
     )
 
     def faqs(self):
-        return FAQPage.objects.live()
+        # Get list of live blog pages that are descendants of this page
+        FAQ = FAQPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        FAQ = FAQ.order_by('title')
 
     @property
     def FAQ(self):
@@ -619,12 +569,13 @@ class FAQIndexPage(Page):
 
         # Order by most recent date first
         FAQ = FAQ.order_by('title')
+
         return FAQ
 
 FAQIndexPage.content_panels = [
+    FieldPanel('title', classname="title"),
     FieldPanel('intro', classname="intro"),
-    ImageChooserPanel('feed_image'),
-    
+    ImageChooserPanel('feed_image'),   
 ]
 
 
@@ -698,6 +649,13 @@ class PersonIndexPage(Page):
         related_name='+'
     )  
 
+    def persons(self):
+        # Get list of live blog pages that are descendants of this page
+        persons = PersonPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        persons = persons.order_by('title')
+
     @property
     def persons(self):
         # Get list of live blog pages that are descendants of this page
@@ -708,8 +666,9 @@ class PersonIndexPage(Page):
 
 
 PersonIndexPage.content_panels = [
-    ImageChooserPanel('feed_image'),
+    FieldPanel('title', classname="title"),
     FieldPanel('intro', classname="intro"),
+    ImageChooserPanel('feed_image'),
 
 ]
 
