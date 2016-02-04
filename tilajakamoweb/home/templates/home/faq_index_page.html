@@ -26,10 +26,23 @@
             <div class="container">
                 <div class="row">
 
+
             <div class="list-group news">
+
+<p>{{ self.intro|safe }}</p>
+
+{% with faqs=self.faqs %}
+    {% for faq in faqs %}
+        {% if request.user.is_authenticated or faq.public %}
+        <strong>{{ faq.title }}</strong> Julkinen: {{ faq.public }}<br>
+        {% endif %}
+    {% endfor %}
+{% endwith %}
                 {# Uses serve method defined in models.py - allows for paging if required #}
                 {# See also standard index for creating a listing with a tag #}
+{% comment %}
                     {% standard_index_listing calling_page=self %}
+{% endcomment %}
 
             </div>
 
