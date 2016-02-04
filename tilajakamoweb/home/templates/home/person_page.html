@@ -10,6 +10,10 @@
         </style>
 {% endblock %}
 
+{% block header %}
+
+{% endblock %}
+
 {% block content %}
 <section>
 <div class="container">
@@ -24,8 +28,8 @@
     {% include "home/includes/intro.html" with intro=self.intro only %}
     <h4>{{ self.title }}</h4>
     <h3>{{ self.first_name }} {{ self.last_name }}</h3>
-    <h4>Telegram: {{ self.telegram }}</h4>
-    <h3>#: {{ self.room }}</h3>
+    <h4><a href="https://telegram.me/lebanonsky">Telegram: {{ self.telegram }}</a></h4>
+    <h3>Huone #{{ self.room }}</h3>
 
     {% if request.user.is_authenticated or self.public %}
         {% if self.biography %}

@@ -64,13 +64,30 @@ def top_menu_children(context, parent):
     'home/tags/standard_index_listing.html',
     takes_context=True
 )
+
 def standard_index_listing(context, calling_page):
     pages = calling_page.get_children().live()
+    print pages
     return {
         'pages': pages,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
+
+# Retrieves all live pages which are children of the calling page
+#for room index listing
+@register.inclusion_tag(
+    'home/tags/room_index_listing.html',
+    takes_context=True
+)
+def room_index_listing(context, calling_page):
+    rooms = calling_page.get_children().live()
+    return {
+        'pages': rooms,
+        # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }
+
 
 @register.inclusion_tag(
     'home/tags/person_index_listing.html',

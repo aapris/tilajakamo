@@ -1,6 +1,6 @@
 {% extends "home/base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags demo_tags wagtailimages_tags static %}
 
 {% block extra_css %}
 
@@ -13,9 +13,16 @@
 {% endblock %}
 
 {% block content %}
-    {% include "home/includes/intro.html" with intro=self.intro only %}
+<section>
+<div class="container">
+<div class="row col-lg-8 col-md-8 col-xs-12">
+    {% if self.feed_image %}
+    <div clss="well col-lg-4" style="float:right">
+        {% image self.feed_image width-300 class="img-thumbnail" %}
+    </div>
+    {% endif %}
 
-    {% include "home/includes/carousel.html" with carousel_items=self.carousel_items.all only %}
+    {% include "home/includes/intro.html" with intro=self.intro only %}
 
     {% if self.body %}
         <div class="body-content">
@@ -24,4 +31,8 @@
     {% endif %}
 
     {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+    </div>
+   </div>
+  </section>
+
 {% endblock %}

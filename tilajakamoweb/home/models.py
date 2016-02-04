@@ -348,7 +348,6 @@ RoomPage.content_panels = [
     FieldPanel('public', classname="public"),
     FieldPanel('body', classname="description"),
     FieldPanel('free', classname="not rented"),
-
 ]
 
 RoomPage.promote_panels = Page.promote_panels + [
@@ -370,6 +369,16 @@ class RoomIndexPage(Page):
         index.SearchField('body'),
     )
 
+    @property
+    def rooms(self):
+        # Get list of live blog pages that are descendants of this page
+        rooms = RoomPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        rooms = rooms.order_by('-date')
+RoomIndexPage.promote_panels = Page.promote_panels + [
+    ImageChooserPanel('feed_image'),
+]
 
 # Blog index page
 
@@ -598,11 +607,20 @@ class FAQIndexPage(Page):
         index.SearchField('body'),
     )
 
+    @property
+    def FAQ(self):
+        # Get list of live blog pages that are descendants of this page
+        FAQ = FAQPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        FAQ = FAQ.order_by('title')
+
 FAQIndexPage.content_panels = [
     FieldPanel('intro', classname="intro"),
     ImageChooserPanel('feed_image'),
     
 ]
+
 
 # Person page
 
@@ -639,7 +657,6 @@ class PersonPage(Page, ContactFields):
         index.SearchField('biography'),
     )
 
-
 PersonPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('first_name', classname="first name"),
@@ -674,6 +691,16 @@ class PersonIndexPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )  
+
+    @property
+    def persons(self):
+        # Get list of live blog pages that are descendants of this page
+        persons = PersonPage.objects.live().descendant_of(self)
+
+        # Order by most recent date first
+        persons = persons.order_by('title')
+
+
 PersonIndexPage.content_panels = [
     ImageChooserPanel('feed_image'),
     FieldPanel('intro', classname="intro"),

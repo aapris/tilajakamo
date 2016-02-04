@@ -1,10 +1,16 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags demo_tags wagtailimages_tags static %}
 
 {% if pages %}
     <div class="list-group">
         {% for page in pages %}
             {% if request.user.is_authenticated or page.public %}
-            <a class="list-group-item" href="{% pageurl page %}">
+            <a class="list-group-item col-lg-3 col-md-6 col-sx-12" href="{% pageurl page %}">
+            {% if page.feed_image %}
+              <div class="media-left">
+                {% image page.feed_image width-200 as img %}
+                <img class="media-object" src="{{ img.url }}" />
+              </div>
+             {% endif %}
                 <h4 class="list-group-item-heading">{{ page.title }}</h4>
                 {% if page.search_description %}
                     <p class="list-group-item-text">{{ page.search_description }}</p>

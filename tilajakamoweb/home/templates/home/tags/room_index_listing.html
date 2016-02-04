@@ -1,0 +1,24 @@
+{% load wagtailcore_tags %}
+
+{% if pages %}
+<section>
+    <div class="content">
+    <div class="row">
+
+    <div class="list-group clear-fix">
+        {% for page in rooms %}
+            {% if request.user.is_authenticated or page.public %}
+            <a class="list-group-item col-lg-3 col-md-4 col-xs-12" style="margin: 4px;" href="{% pageurl page %}">
+                <h4 class="list-group-item-heading">Huone #{{ page.title }}</h4>
+                <strong>{{ page.intro }}</strong>
+                {% if page.search_description %}
+                    <p class="list-group-item-text">{{ page.search_description }}</p>
+                {% endif %}
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    </div>
+    </div>
+</section>
+{% endif %}
