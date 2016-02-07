@@ -354,7 +354,7 @@ RoomPage.promote_panels = Page.promote_panels + [
 ]
 
 class RoomIndexPage(Page):
-    subpage_types = ['home.RoomPage']
+    subpage_types = ['home.RoomPage','home.RoomIndexPage']
 
     intro = RichTextField(blank=True)
     feed_image = models.ForeignKey(
