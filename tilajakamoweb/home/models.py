@@ -388,7 +388,7 @@ class RoomIndexPage(Page):
     #     rooms = rooms.order_by('-date')
 
     #     return rooms
-        
+
 RoomIndexPage.content_panels = Page.content_panels + [
     FieldPanel('intro', classname="intro"),
     ImageChooserPanel('feed_image'),
@@ -512,10 +512,6 @@ class BlogIndexPageRelatedLink(Orderable, RelatedLink):
 
 class FAQPageRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('home.FAQPage', related_name='related_links')
-
-class BlogPageTag(TaggedItemBase):
-    content_object = ParentalKey('home.FAQPage', related_name='tagged_items')
-
 
 class FAQPage(Page):
     body = RichTextField(blank=True)
@@ -666,7 +662,8 @@ class PersonIndexPage(Page):
         persons = PersonPage.objects.live().descendant_of(self)
 
         # Order by most recent date first
-        persons = persons.order_by('title')
+        persons = persons.order_by('last_name')
+        print dir(persons)
 
         return persons
 

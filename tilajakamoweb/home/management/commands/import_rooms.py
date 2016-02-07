@@ -5,7 +5,7 @@ import csv
 
 class Command(BaseCommand):
     help = 'Import RoomPage data from CSV file'
-
+        
     def add_arguments(self, parser):
         parser.add_argument('-f', '--file',
             dest='filename',
@@ -14,9 +14,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fn = options['filename']
         if fn and os.path.isfile(fn):
-            self.stdout.write(self.style.SUCCESS('File "{}" exists!'.format(fn)))
+            self.stdout.write(self.SUCCESS('File "{}" exists!'.format(fn)))
         else:
-            self.stdout.write(self.style.ERROR('Error with File "{}"'.format(fn)))
+            self.stdout.write(self.ERROR('Error with File "{}"'.format(fn)))
             exit(1)
 
         with open(fn, 'rb') as csvfile:
@@ -28,23 +28,23 @@ class Command(BaseCommand):
                  r.title = row[0]
                  r.free = False
                  r.public = True
-                 r.depth = 5
-                 r.numclhild = 0
+                 #r.depth = 5
+                 #r.numclhild = 0
                  r.live = False
                  r.slug = row[0]
                  r.body = row[1]
-                 r.has_unpublished_changes = False
-                 r.path = ''
-                 r.url_path = ("/home/tilajakamo/huoneet/%s/",row[0])
+                 #r.has_unpublished_changes = False
+                 #r.path = ''
+                 #r.url_path = "/home/tilajakamo/huoneet/%s/",row[0]
                  r.seo_title = row[0]
                  r.show_in_menus = False
-                 r.search_description = row[1]
+                 #r.search_description = row[1]
                  r.expired = False
                  r.content_type_id = 15
                  r.locked = False
                  r.owner_id = 1
                  r.save()
-                 print dir(r)
+                 print created
         #     try:
         #         poll = Poll.objects.get(pk=poll_id)
         #     except Poll.DoesNotExist:

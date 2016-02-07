@@ -23,36 +23,32 @@
 
 {% block content %}
     <section class="news" style="padding:10px 10px">
-            <div class="container">
-                <div class="row">
+        <div class="container">
+            <div class="row">
             <div class="list-group news">
-
-{{ self.persons }}
-
 {% with persons=self.persons %}
     {% for person in persons %}
-
                 {% if request.user.is_authenticated or person.public %}
-                <a class="list-group-item col-lg-3 col-md-4 col-xs-12" style="margin: 4px;" href="{% pageurl page %}">
+                <a class="list-group-item col-lg-3 col-md-4 col-xs-12" style="margin: 4px;" href="{% pageurl person %}">
                 <h4 class="list-group-item-heading">{{ person.title }}</h4>
                 <h3 class="list-group-item-heading">{{ person.first_name }} {{ person.last_name }}</h3>
                 <h4 class="list-group-item-heading">#{{ person.room }}</h4>
                 {% if person.telegram %}
-                    <h4 class="list-group-item-heading">Telegram: {{ person.telegram }}</h4>
+                    <h4 class="list-group-item-heading">Telegram @{{ person.telegram }}</h4>
                 {% endif %}            
                     <strong>{{ person.intro|safe }}</strong>
-                {% if page.search_description %}
-                    <p class="list-group-item-text">{{ page.search_description }}</p>
-                    </a>
+                {% if person.feed_image %}
+                <div class="media-left">
+                {% image person.feed_image width-270 as img %}
+                <img class="media-object" src="{{ img.url }}" />
                 {% endif %}
+              </div>
             {% endif %}
+
     {% endfor %}
 {% endwith %}
-
-            </div>
-
-            </div>
+             </div>
+          </div>
         </div>
     </section>
-    {# {% include "home/includes/related_links.html" with related_links=self.related_links.all only %} #}
 {% endblock %}
