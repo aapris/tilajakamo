@@ -21,7 +21,9 @@ class Command(BaseCommand):
 
         with open(fn, 'rb') as csvfile:
             roomreader = csv.reader(csvfile, delimiter=';', quotechar='"')
+            pth = 00010001000100050005
             for row in roomreader:
+                 pth = pth + 1
                  #print ', '.join(row[0])        # RoomPage
                  #print ', '.join(row[1])        # RoomPage
                  r, created = RoomPage.objects.get_or_create(title=row[0],
@@ -34,6 +36,7 @@ class Command(BaseCommand):
                     #r.numclhild = 0
                     'live': True,
                     'slug': row[0],
+                    'path': str(pth),
                  #r.has_unpublished_changes = False
                  #r.path = ''
                  #r.url_path = "/home/tilajakamo/huoneet/%s/",row[0]
