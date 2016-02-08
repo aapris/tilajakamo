@@ -663,7 +663,6 @@ class PersonIndexPage(Page):
 
         # Order by most recent date first
         persons = persons.order_by('last_name')
-        print dir(persons)
 
         return persons
 

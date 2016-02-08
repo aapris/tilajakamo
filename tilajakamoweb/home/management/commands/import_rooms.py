@@ -44,11 +44,12 @@ class Command(BaseCommand):
                      'show_in_menus': False,
                      #r.search_description = row[1]
                      'expired': False,
-                     #'content_type_id' = 15,
+                     'content_type_id': 15,
                      'locked': False,
                      'owner_id': 1,
                     }
                 )
+                 print r.path
                  print created
         #     try:
         #         poll = Poll.objects.get(pk=poll_id)
