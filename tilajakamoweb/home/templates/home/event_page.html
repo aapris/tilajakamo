@@ -1,8 +1,30 @@
 {% extends "home/base.html" %}
 {% load demo_tags wagtailcore_tags wagtailimages_tags %}
 
+{% block extra_css %}
+        <style type="text/css">
+        header {
+            background-image: url("");
+            min-height: 0;
+        }
+        </style>
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
 {% block content %}
-    <div class="well">
+<section>
+<div class="container">
+    {% if self.feed_image %}
+    <div clss="col-lg-4" style="float:right;padding:10px">
+        {% image self.feed_image width-300 class="img-thumbnail" %}
+    </div>
+    {% endif %}
+
+    <div class="well ">
+        <h3>{{ self.title }}</h3>
         <p><strong>
             {{ self.date_from }}{% if self.date_to %} to {{ self.date_to }}{% endif %}
             {% if self.time_from %}{{ self.time_from|time }}{% endif %}{% if self.time_to %} to {{ self.time_to|time }}{% endif %}
@@ -28,7 +50,6 @@
         </p>
     </div>
 
-    {% include "home/includes/carousel.html" with carousel_items=self.carousel_items.all only %}
 
     {% if self.body %}
         <div class="body-content">
@@ -63,6 +84,6 @@
         {% endif %}
     {% endwith %}
 
-
     {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+    </div></section>
 {% endblock %}

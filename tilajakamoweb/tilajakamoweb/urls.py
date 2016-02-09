@@ -20,7 +20,7 @@ urlpatterns = [
 
     url(r'', include(wagtail_urls)),
 
-     url(r'^api/', include(wagtailapi_urls)),
+    url(r'^api/', include(wagtailapi_urls)),
 ]
 
 
