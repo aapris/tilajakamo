@@ -630,7 +630,7 @@ class PersonPage(Page, ContactFields):
         index.SearchField('biography'),
     )
 
-    api_fields = ('public', 'room', 'body','telegram','last_name','first_name','intro')
+    api_fields = ('public', 'room','telegram','last_name','first_name','intro')
 
 PersonPage.content_panels = [
     FieldPanel('title', classname="full title"),
