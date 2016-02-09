@@ -640,7 +640,6 @@ PersonPage.content_panels = [
     FieldPanel('telegram', classname="telegram contact"),
     FieldPanel('room', classname="room #"),
     FieldPanel('public', classname="public"),
-    FieldPanel('intro', classname="telegram intro"),
     FieldPanel('biography', classname="full"),
     ImageChooserPanel('image'),
     MultiFieldPanel(ContactFields.panels, "Contact"),

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from home.models import RoomPage
+from home.models import PersonPage
 import os
 import csv
 
@@ -21,20 +21,21 @@ class Command(BaseCommand):
 
         with open(fn, 'rb') as csvfile:
             roomreader = csv.reader(csvfile, delimiter=';', quotechar='"')
-            pth = 5
+            pth = 3
             for row in roomreader:
                  pth = pth + 1
-                 r, created = RoomPage.objects.update_or_create(title=row[0],
+                 r, created = PersonPage.objects.update_or_create(title=row[1],
                     defaults = {
                     'depth':5,
-                    'slug':row[0], 
-                    'path': str('0001000100010005{:04d}'.format(pth) ),
-                    'url_path': ("/home/tilajakamo/huoneet/%s/" %row[0]),
+                    'slug':row[1].split(' ')[1],
+                    'path': str('0001000100010003{:04d}'.format(pth) ),
+                    'url_path': ("/home/tilajakamo/huoneet/%s/" %row[1].split(' ')[1]),
                     #'title': row[0],
-                    'body': row[1],
+                    'room_id': row[0],
                     }
                 )
                  print r
+
         #     try:
         #         poll = Poll.objects.get(pk=poll_id)
         #     except Poll.DoesNotExist:
