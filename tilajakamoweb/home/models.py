@@ -340,6 +340,8 @@ class RoomPage(Page):
         index.SearchField('free'),
     )
 
+    api_fields = ('public', 'member', 'body','free')
+
 RoomPage.content_panels = [
     FieldPanel('title', classname="room number"),
     FieldPanel('public', classname="public"),
@@ -425,6 +427,9 @@ class BlogPage(Page):
     search_fields = Page.search_fields + (
         index.SearchField('body'),
     )
+
+    api_fields = ('public', 'date', 'body')
+
 
     @property
     def blog_index(self):
@@ -513,10 +518,13 @@ class BlogIndexPageRelatedLink(Orderable, RelatedLink):
 class FAQPageRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('home.FAQPage', related_name='related_links')
 
+class FAQPageTag(TaggedItemBase):
+    content_object = ParentalKey('home.FAQPage', related_name='tagged_items')
+
 class FAQPage(Page):
     body = RichTextField(blank=True)
     public = models.BooleanField(default=True)
-    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    tags = ClusterTaggableManager(through=FAQPageTag, blank=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -529,6 +537,8 @@ class FAQPage(Page):
         index.SearchField('body'),
         index.SearchField('free'),
     )
+
+    api_fields = ('public', 'body')
 
 FAQPage.content_panels = [
     FieldPanel('title', classname="Question"),
@@ -620,8 +630,11 @@ class PersonPage(Page, ContactFields):
         index.SearchField('biography'),
     )
 
+    api_fields = ('public', 'room', 'body','telegram','last_name','first_name','intro')
+
 PersonPage.content_panels = [
     FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="telegram intro"),
     FieldPanel('first_name', classname="first name"),
     FieldPanel('last_name', classname="last name"),
     FieldPanel('telegram', classname="telegram contact"),
