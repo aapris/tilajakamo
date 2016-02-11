@@ -41,7 +41,7 @@
 
     {% with self.member as member %}
         {% if member.public or request.user.is_authenticated %}
-            <h4>Osuukuntalainen:</h4> 
+            <h4>Osuuskuntalainen:</h4> 
             <ul>
             <li><a href="/me/{{ member.slug }}">{{ member.first_name }} {{ member.last_name }}</a></li>
             <li>@{{ member.telegram }}</li>
