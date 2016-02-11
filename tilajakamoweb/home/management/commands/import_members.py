@@ -21,15 +21,17 @@ class Command(BaseCommand):
 
         with open(fn, 'rb') as csvfile:
             roomreader = csv.reader(csvfile, delimiter=';', quotechar='"')
-            pth = 3
+            pth = 2
             for row in roomreader:
                  pth = pth + 1
                  r, created = PersonPage.objects.update_or_create(title=row[1],
                     defaults = {
                     'depth':5,
                     'slug':row[1].split(' ')[1],
+                    'first_name':row[1].split(' ')[0],
+                    'last_name':row[1].split(' ')[1],
                     'path': str('0001000100010003{:04d}'.format(pth) ),
-                    'url_path': ("/home/tilajakamo/huoneet/%s/" %row[1].split(' ')[1]),
+                    'url_path': ("/home/tilajakamo/me/%s/" %row[1].split(' ')[1]),
                     #'title': row[0],
                     'room_id': row[0],
                     }

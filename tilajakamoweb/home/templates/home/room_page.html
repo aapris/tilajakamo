@@ -33,7 +33,13 @@
     {% if self.body %}
         <div class="body-content">
             {{ self.body|richtext }}
-        </div>
+        </div> 
+    {% endif %}
+
+    {{ self.member.first_name }}
+
+    {% if self.member %}
+            <a href="{{ self.member.url }}">{{ self.member.first_name }} {{ self.member.last_name }}</a>
     {% endif %}
 
     {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}

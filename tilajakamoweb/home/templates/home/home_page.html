@@ -22,7 +22,8 @@
 
 {% block heading %}
     <div class="page-header section-heading">
-        <h1>{{ self.title }}</h1>
+    <img src="{% static "home/img/tilajakamo_vaaka_neg.png" %}" style="width:80%" />
+        <!--h1>{{ self.title }}</h1-->
         {% include "home/includes/intro.html" with intro=self.body only %}
         
     </div>

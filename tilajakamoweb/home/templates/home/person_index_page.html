@@ -11,23 +11,24 @@
         }
 
         .well {
-            background: transparent url("{% static "home/img/transpBrown50.png" %}");
-        }
+/*            background: transparent url("{% static "home/img/transpBrown50.png" %}");
+*/        }
 
         .news {
             background: transparent url("{% static "home/img/transpBrown10.png" %}");
             padding: 10px;
+            height: 275px;
         }
         </style>
 {% endblock %}
 
 {% block content %}
-    <section class="news" style="padding:10px 10px">
+    <section class="" style="padding:10px 10px">
         <div class="container">
-            <div class="row">
+            <div class="row list-group col-lg-12 col-md-12 col-sx-12">
     {% for person in self.persons %}
                 {% if request.user.is_authenticated or person.public %}
-                <a class="news col-lg-3 col-md-6 col-xs-12" style="margin: 4px;" href="{% pageurl person %}">
+                <a class="news list-group-item col-lg-3 col-md-6 col-xs-12"  href="{% pageurl person %}">
                 <h4 >{{ person.title }}</h4>
                 <h3 >{{ person.first_name }} {{ person.last_name }}</h3>
                 <h4 >#{{ person.room }}</h4>

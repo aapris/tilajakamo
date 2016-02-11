@@ -321,12 +321,12 @@ class RoomPage(Page):
     free = models.BooleanField(default=False)
     body = RichTextField(blank=True)
     public = models.BooleanField(default=True)
-    member = models.ForeignKey('home.PersonPage',         
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
+    # member = models.ForeignKey('home.PersonPage',         
+    #     null=True,
+    #     blank=True,
+    #     on_delete=models.SET_NULL,
+    #     related_name='+'
+    # )
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -342,6 +342,10 @@ class RoomPage(Page):
 
     api_fields = ('public', 'member', 'body','free')
 
+    # def member(self):
+    #     member = PersonPage.objects.entry_set.all()
+    #     return member
+
 RoomPage.content_panels = [
     FieldPanel('title', classname="room number"),
     FieldPanel('public', classname="public"),
@@ -351,7 +355,6 @@ RoomPage.content_panels = [
 ]
 
 RoomPage.promote_panels = Page.promote_panels + [
-    FieldPanel('member', classname="member"),
     FieldPanel('free', classname="not rented"),    
 ]
 
@@ -605,7 +608,7 @@ class PersonPage(Page, ContactFields):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     telegram = models.CharField(blank=True, max_length=255)
-    public = models.BooleanField(default=True)    
+    public = models.BooleanField(default=True)
     room = models.ForeignKey('home.RoomPage',
         null=True,
         blank=True,
@@ -622,6 +625,7 @@ class PersonPage(Page, ContactFields):
         related_name='+'
     )
 
+
     search_fields = Page.search_fields + (
         index.SearchField('first_name'),
         index.SearchField('last_name'),
@@ -631,6 +635,8 @@ class PersonPage(Page, ContactFields):
     )
 
     api_fields = ('public', 'room','telegram','last_name','first_name','intro')
+
+PersonPage._meta.get_field('owner').editable=True
 
 PersonPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -648,6 +654,11 @@ PersonPage.content_panels = [
 
 PersonPage.promote_panels = Page.promote_panels + [
 ]
+
+PersonPage.settings_panels = Page.settings_panels + [
+    FieldPanel('owner', classname="owner"),
+]
+
 
 class PersonIndexPage(Page):
     subpage_types = ['home.PersonPage']
