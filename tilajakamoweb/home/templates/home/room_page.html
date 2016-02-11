@@ -11,7 +11,7 @@
         }
 
         .well {
-            background: transparent url("{% static "home/img/transpBrown50.png" %}");
+            /*background: transparent url("{% static "home/img/transpBrown50.png" %}");*/
         }
 
         </style>
@@ -27,21 +27,28 @@
 <section class="news">
         <div class="container">
             <div class="row col-lg-8 row-centered">
-
       <h2>Huone #{{ self.title }}</h2>
 
     {% if self.body %}
-        <div class="body-content">
+        <div class="container well">
+                    {% if self.feed_image %}
+        {% image self.feed_image width-300 class="img-thumbnail pull-right" %}
+    {% endif %}
+
             {{ self.body|richtext }}
         </div> 
     {% endif %}
 
-    {{ self.member.first_name }}
-
-    {% if self.member %}
-            <a href="{{ self.member.url }}">{{ self.member.first_name }} {{ self.member.last_name }}</a>
-    {% endif %}
-
+    {% with self.member as member %}
+        {% if member.public or request.user.is_authenticated %}
+            <h4>Osuukuntalainen:</h4> 
+            <ul>
+            <li><a href="/me/{{ member.slug }}">{{ member.first_name }} {{ member.last_name }}</a></li>
+            <li>@{{ member.telegram }}</li>
+            <li>{{ member.intro|richtext }}</li>
+            </ul>
+        {% endif %}
+    {% endwith %}
     {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
     </div></div></section>
 {% endblock %}

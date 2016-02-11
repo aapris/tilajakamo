@@ -17,13 +17,11 @@
 {% block content %}
 <section>
 <div class="container">
-    {% if self.image %}
-    <div clss="well col-lg-4" style="float:right">
-        {% image self.image width-300 class="img-thumbnail" %}
-    </div>
-    {% endif %}
 
-<div class="row col-lg-8 col-md-8 col-xs-12">
+<div class="row well">
+    {% if self.image %}
+        {% image self.image width-300 class="img-thumbnail pull-right" %}
+    {% endif %}
 
     <h4>{{ self.title }}</h4>
     <h3>{{ self.first_name }} {{ self.last_name }}</h3>
@@ -39,8 +37,10 @@
                 {{ self.biography|richtext }}
             </div>
         {% endif %}
+            {% if request.user.is_authenticated %}
+            {% include "home/includes/contact.html" with contact=self only %}
+            {% endif %}
 
-        {% include "home/includes/contact.html" with contact=self only %}
         {% endif %}
     {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
     </div></div></section>

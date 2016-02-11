@@ -342,9 +342,9 @@ class RoomPage(Page):
 
     api_fields = ('public', 'member', 'body','free')
 
-    # def member(self):
-    #     member = PersonPage.objects.entry_set.all()
-    #     return member
+    def member(self):
+        member = PersonPage.objects.filter(room = self).values('title','first_name','last_name','slug','public','intro','telegram')
+        return member[0]
 
 RoomPage.content_panels = [
     FieldPanel('title', classname="room number"),
