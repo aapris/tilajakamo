@@ -343,9 +343,12 @@ class RoomPage(Page):
     api_fields = ('public', 'member', 'body','free')
 
     def member(self):
-        member = PersonPage.objects.filter(room = self).values('title','first_name','last_name','slug','public','intro','telegram')
-        return member[0]
-
+        try:
+            member = PersonPage.objects.filter(room = self).values('title','first_name','last_name','slug','public','intro','telegram')
+            return member[0]
+        except:
+            return
+            
 RoomPage.content_panels = [
     FieldPanel('title', classname="room number"),
     FieldPanel('public', classname="public"),
@@ -541,6 +544,11 @@ class FAQPage(Page):
         index.SearchField('free'),
     )
 
+    @property
+    def faq_index(self):
+        # Find closest ancestor which is a faq index
+        return self.get_ancestors().type(FAQIndexPage).last()
+
     api_fields = ('public', 'body')
 
 FAQPage.content_panels = [
@@ -587,7 +595,7 @@ class FAQIndexPage(Page):
         FAQ = FAQPage.objects.live().descendant_of(self)
 
         # Order by most recent date first
-        FAQ = FAQ.order_by('title')
+        FAQ = FAQ.order_by('tags')
 
         return FAQ
 

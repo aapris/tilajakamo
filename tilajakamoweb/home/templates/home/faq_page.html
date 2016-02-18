@@ -25,7 +25,18 @@
     {# {% include "home/includes/carousel.html" with carousel_items=self.carousel_items.all only %} #}
 
     <h2>{{ self.title }}</h2>
+    
+    <div class="pull-right">
+      {% for tag in self.tags.all %}
+        <a href="{% pageurl self.faq_index %}?tag={{ tag }}"
+           class="btn btn-primary btn-xs">
+          <i class="glyphicon glyphicon-tag"></i> {{ tag }}
+        </a>
+      {% endfor %}
 
+    <div class="pull-right">
+    {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+            </div>
 
     {% if self.body %}
         <div class="body-content">
@@ -35,8 +46,8 @@
             {% endif %}
         </div>
     {% endif %}
-
-    {# {% include "home/includes/related_links.html" with related_links=self.related_links.all only %} #}
+    
+    </div>
     </div>
     </div>
 </section>

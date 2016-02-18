@@ -29,26 +29,32 @@
             <div class="row col-lg-8 row-centered">
       <h2>Huone #{{ self.title }}</h2>
 
-    {% if self.body %}
-        <div class="container well">
-                    {% if self.feed_image %}
-        {% image self.feed_image width-300 class="img-thumbnail pull-right" %}
-    {% endif %}
-
-            {{ self.body|richtext }}
-        </div> 
-    {% endif %}
-
-    {% with self.member as member %}
-        {% if member.public or request.user.is_authenticated %}
-            <h4>Osuuskuntalainen:</h4> 
-            <ul>
-            <li><a href="/me/{{ member.slug }}">{{ member.first_name }} {{ member.last_name }}</a></li>
-            <li>@{{ member.telegram }}</li>
-            <li>{{ member.intro|richtext }}</li>
-            </ul>
+    {% if self.free %}
+        {% if self.body %}
+            <div class="container well">
+                        {% if self.feed_image %}
+            {% image self.feed_image width-300 class="img-thumbnail pull-right" %}
         {% endif %}
-    {% endwith %}
-    {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+
+                {{ self.body|richtext }}
+            </div> 
+        {% endif %}
+
+     {% else %}   
+
+        {% if self.member.public or request.user.is_authenticated %}
+                <h4>Osuuskuntalainen:</h4> 
+                <i>"{{ self.member.intro|richtext }}"</i>
+                {% if self.member.feed_image %}
+                    {% image self.member.feed_image width-300 class="img-thumbnail pull-right" %}
+                {% endif %}
+                <ul>
+                <li><a href="/me/{{ self.member.slug }}">{{ self.member.title }} <br/>{{ self.member.first_name }} {{ self.member.last_name }}</a></li>
+                <li>@{{ self.member.telegram }}</li>
+                </ul>
+            {% endif %}
+        
+    {% endif %}
+
     </div></div></section>
 {% endblock %}

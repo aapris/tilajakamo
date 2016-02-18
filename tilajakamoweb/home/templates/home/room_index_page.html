@@ -8,8 +8,15 @@
         <style type="text/css">
         header {
             background-image: url("{{ bg_image.url }}");
+            background-size: contain;
+            background-repeat: no-repeat; 
+
         }
 
+        .page-header {
+            color: #000;
+            margin-top: 500px;
+        }
         .well {
             background: transparent url("{% static "home/img/transpBrown50.png" %}");
         }
@@ -35,9 +42,9 @@
             <a class="list-group-item col-lg-3 col-md-6 col-sx-12" href="{% pageurl room %}">
                 <h4 class="list-group-item-heading">#{{ room.title }}</h4>
             {% if room.feed_image %}
-              <div class="media-left">
-                {% image room.feed_image width-270 as img %}
-                <img class="media-object" src="{{ img.url }}" />
+              <div class="container" style="float:right;overflow:hidden">
+                {% image room.feed_image width-125 as img %}
+                <img class="media-object pull-right" src="{{ img.url }}" />
               </div>
              {% endif %}
                 {% if room.search_description %}
