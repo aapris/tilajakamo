@@ -109,14 +109,22 @@
 
             {% block content %}{% endblock %}
 
-<section class="pager" >
-    <div class="container pager col-lg-12 col-md-6 col-xs-12 center-block">
+{% block pager %}
+<section class="pager" style="padding:0">
+    <div class="container pager col-lg-12 center-block">
     <div class="row" style="padding: 0 10px;margin: 0 10px;">
             {% include 'home/includes/prev_next.html' %}
     </div></div>
 </section>
+{% endblock %}
 
-        {% adverts %}
+{% block adverts %}{% endblock %}
+
+    <footer>
+    <div class="container">
+        <img src="{% static "home/img/tilajakamo_vaaka_min.png"%}" class="pull-right" style="width:200px;margin: 0 20px 50px 0;"/> 
+        </div>
+    </footer>  
 
         {# External javascript #}
         <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -138,8 +146,6 @@
         {% endcompress %}
 
         {% block extra_js %}{% endblock %} {# Override this block in individual templates in order to add javascript on a template by template basis #}
-    <footer>
-        <img src="{% static "home/img/tilajakamo_vaaka_min.png"%}" class="pull-right" style="width:200px;margin: 0 20px 50px 0;"/> 
-    </footer>    
+  
     </body>
 </html>

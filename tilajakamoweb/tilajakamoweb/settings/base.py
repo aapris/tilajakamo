@@ -54,6 +54,15 @@ INSTALLED_APPS = [
     'wagtail.contrib.wagtailapi',
 ]
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE': 100,
+#     'PAGINATE_BY':100,
+#     'MAX_PAGINATE_BY': 100,  
+#     'PAGINATE_BY_PARAM': 'page_size',
+
+# }
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -115,6 +124,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+WAGTAILAPI_MAX_RESULTS = 100
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

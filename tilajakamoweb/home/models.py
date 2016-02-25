@@ -193,11 +193,20 @@ class Advert(models.Model):
     )
     url = models.URLField(null=True, blank=True)
     text = models.CharField(max_length=255)
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
 
     panels = [
         PageChooserPanel('page'),
         FieldPanel('url'),
         FieldPanel('text'),
+        ImageChooserPanel('feed_image'),
     ]
 
     def __unicode__(self):
