@@ -330,6 +330,8 @@ class RoomPage(Page):
     free = models.BooleanField(default=False)
     body = RichTextField(blank=True)
     public = models.BooleanField(default=True)
+    start = models.DateField("From", blank=True, null=True)
+    end = models.DateField("To", blank=True, null=True)
     # member = models.ForeignKey('home.PersonPage',         
     #     null=True,
     #     blank=True,
@@ -349,7 +351,7 @@ class RoomPage(Page):
         index.SearchField('free'),
     )
 
-    api_fields = ('public', 'member', 'body','free')
+    api_fields = ('public', 'member', 'body','free','start','end')
 
     def member(self):
         try:
@@ -367,7 +369,11 @@ RoomPage.content_panels = [
 ]
 
 RoomPage.promote_panels = Page.promote_panels + [
-    FieldPanel('free', classname="not rented"),    
+    FieldPanel('free', classname="not rented"),
+    FieldPanel('start', classname="free from"),
+    FieldPanel('end', classname="free until"),
+    
+        
 ]
 
 class RoomIndexPage(Page):
