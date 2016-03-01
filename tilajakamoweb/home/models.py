@@ -332,6 +332,7 @@ class RoomPage(Page):
     public = models.BooleanField(default=True)
     start = models.DateField("From", blank=True, null=True)
     end = models.DateField("To", blank=True, null=True)
+    ad = RichTextField(blank=True)
     # member = models.ForeignKey('home.PersonPage',         
     #     null=True,
     #     blank=True,
@@ -372,7 +373,7 @@ RoomPage.promote_panels = Page.promote_panels + [
     FieldPanel('free', classname="not rented"),
     FieldPanel('start', classname="free from"),
     FieldPanel('end', classname="free until"),
-    
+    FieldPanel('ad', classname="ad"),    
         
 ]
 
@@ -711,6 +712,10 @@ class PersonIndexPage(Page):
         persons = persons.order_by('last_name')
 
         return persons
+
+    @property
+    def name_display(self):
+        return self.first_name + " " + self.last_name
 
     # @property
     # def persons(self):

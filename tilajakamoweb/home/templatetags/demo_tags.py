@@ -67,7 +67,6 @@ def top_menu_children(context, parent):
 
 def standard_index_listing(context, calling_page):
     pages = calling_page.get_children().live()
-    print pages
     return {
         'pages': pages,
         # required by the pageurl tag that we want to use within this template
@@ -143,6 +142,19 @@ def event_listing_homepage(context, count=3):
         'request': context['request'],
     }
 
+# Free rooms feed for home page
+@register.inclusion_tag(
+    'home/tags/room_listing_homepage.html',
+    takes_context=True
+)
+def room_listing_homepage(context):
+    rooms = RoomPage.objects.live()
+    rooms = rooms.filter(free=True)
+    return {
+        'rooms': rooms.select_related('feed_image'),
+        # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }
 
 # Advert snippets
 @register.inclusion_tag('home/tags/adverts.html', takes_context=True)
