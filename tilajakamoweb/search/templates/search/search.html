@@ -1,12 +1,42 @@
-{% extends "base.html" %}
+{% extends "home/base.html" %}
 {% load static wagtailcore_tags %}
 
 {% block body_class %}template-searchresults{% endblock %}
 
 {% block title %}Search{% endblock %}
 
+{% block extra_css %}
+        <style type="text/css">
+        header {
+            background-image: url("{% static "home/img/transpBrown50.png" %}");
+            min-height: 150px;
+        }
+
+
+        </style>
+{% endblock %}
+
+{% block header %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+
+            {% block heading %}
+                <div class="page-header" class="section-heading">
+                    <h1>Haku</h1>
+                </div>
+            {% endblock %}
+
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
 {% block content %}
-    <h1>Search</h1>
+
+<section style="padding:10px 0">
+  <div class="container">
+  <div class="row col-lg-12 col-md-8" style="clear:both">
 
     <form action="{% url 'search' %}" method="get">
         <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
@@ -35,4 +65,8 @@
     {% elif search_query %}
         No results found
     {% endif %}
+    </div>
+    </div>
+    </section>
 {% endblock %}
+

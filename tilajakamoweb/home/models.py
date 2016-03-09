@@ -238,6 +238,10 @@ class HomePage(Page):
         index.SearchField('body'),
     )
 
+    def rooms(self):
+        rooms = RoomPage.objects.live()
+        return rooms.filter(free=True)
+
     class Meta:
         verbose_name = "Homepage"
 
@@ -366,14 +370,14 @@ RoomPage.content_panels = [
     FieldPanel('public', classname="public"),
     FieldPanel('body', classname="description"),
     ImageChooserPanel('feed_image'),
-
-]
-
-RoomPage.promote_panels = Page.promote_panels + [
     FieldPanel('free', classname="not rented"),
     FieldPanel('start', classname="free from"),
     FieldPanel('end', classname="free until"),
     FieldPanel('ad', classname="ad"),    
+
+]
+
+RoomPage.promote_panels = Page.promote_panels + [
         
 ]
 
@@ -648,7 +652,6 @@ class PersonPage(Page, ContactFields):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-
 
     search_fields = Page.search_fields + (
         index.SearchField('first_name'),

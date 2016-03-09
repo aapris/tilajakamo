@@ -22,6 +22,8 @@ urlpatterns = [
 
     url(r'', include(wagtail_urls)),
 
+    url(r'^accounts/', include('allauth.urls')),
+
 ]
 
 

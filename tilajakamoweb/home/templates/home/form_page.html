@@ -2,8 +2,9 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-<section>
-<div class="container">
+<section style="padding:10px 0">
+  <div class="container">
+  <div class="row col-lg-12 col-md-8" style="clear:both">
     {% include "home/includes/intro.html" with intro=self.intro only %}
 
     <form action="{% pageurl self %}" method="POST">
@@ -11,6 +12,7 @@
         {{ form.as_p }}
         <input type="submit">
     </form>
+    </div>
     </div>
     </section>
 {% endblock %}

@@ -32,11 +32,12 @@
     {% if self.free %}
         {% if self.body %}
             <div class="container well">
-                        {% if self.feed_image %}
-            {% image self.feed_image width-300 class="img-thumbnail pull-right" %}
-        {% endif %}
-
+                {% if self.feed_image %}
+                     {% image self.feed_image width-300 class="img-thumbnail pull-right" %}
+              {% endif %}
                 {{ self.body|richtext }}
+                  <p><strong>Vuokrattavissa: {{ self.start }}{% if self.end %} -- {{ self.end }}{% endif %}</strong>
+                  {{ self.ad|richtext }}</p>
             </div> 
         {% endif %}
 

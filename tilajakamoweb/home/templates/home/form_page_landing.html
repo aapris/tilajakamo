@@ -1,6 +1,12 @@
-{% extends "demo/base.html" %}
+{% extends "home/base.html" %}
 {% load wagtailcore_tags %}
 
 {% block content %}
+<section style="padding:10px 0">
+  <div class="container">
+  <div class="row col-lg-12 col-md-8" style="clear:both">
     {{ self.thank_you_text|richtext }}
+    </div>
+    </div>
+    </section>
 {% endblock %}
