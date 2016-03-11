@@ -8,6 +8,9 @@ from wagtail.wagtailcore import urls as wagtail_urls
 
 from wagtail.contrib.wagtailapi import urls as wagtailapi_urls
 
+from wiki.urls import get_pattern as get_wiki_pattern
+from django_nyt.urls import get_pattern as get_nyt_pattern
+
 import search.views
 
 urlpatterns = [
@@ -19,7 +22,11 @@ urlpatterns = [
     url(r'^search/$', search.views.search, name='search'),
 
     url(r'^api/', include(wagtailapi_urls)),
+    # Allauth
     url(r'^accounts/', include('allauth.urls')),
+    # Wiki
+    url(r'^wiki/notifications/', get_nyt_pattern()),
+    url(r'^wiki', get_wiki_pattern()),
 
     url(r'^', include(wagtail_urls)),
 

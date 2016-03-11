@@ -89,6 +89,18 @@ INSTALLED_APPS = [
     'rest_framework',
     'wagtail.contrib.wagtailapi',
 
+    # Django Wiki
+    'django.contrib.humanize',
+    'django_nyt',
+    'mptt',
+    'sekizai',
+    'sorl.thumbnail',
+    'wiki',
+    'wiki.plugins.attachments',
+    'wiki.plugins.notifications',
+    'wiki.plugins.images',
+    'wiki.plugins.macros',    
+
     # The Django sites framework is required
     'django.contrib.sites',
 
@@ -172,10 +184,15 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'sekizai.context_processors.sekizai',                
             ],
         },
     },
@@ -230,7 +247,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = "tilajakamoweb"
+SITE_ID = 1
+
