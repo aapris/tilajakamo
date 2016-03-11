@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     # Wiki
     url(r'^wiki/notifications/', get_nyt_pattern()),
-    url(r'^wiki', get_wiki_pattern()),
+    url(r'^wiki/?', get_wiki_pattern()),
 
     url(r'^', include(wagtail_urls)),
 
