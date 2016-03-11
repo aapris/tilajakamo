@@ -1,0 +1,22 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{# Individual room item in a list - used on room index and home page #}
+<a class="col-md-4 col-sm-6 col-xs-12" style="min-height:170px;margin:20p;padding: 12px" href="{% pageurl room %}">
+  <div class="media">
+    {% if room.feed_image %}
+      <div class="media-left">
+        {% image room.feed_image width-100 as img %}
+        <img class="media-object" src="{{ img.url }}" />
+      </div>
+    {% else %}
+    <div class="media-left">
+    <i class="fa fa-2x fa-institution wow bounceIn text-primary" style="visibility: visible; animation-name: bounceIn;"></i>
+    </div>
+    {% endif %}
+    <div class="media-body">
+      <h4 class="media-heading">#{{ room.title }}</h4>
+      <p><strong>{{ room.start }}{% if room.end %} -- {{ room.end }}{% endif %}</strong>
+      {{ room.ad|richtext }}</p>
+    </div>
+  </div>
+</a>
