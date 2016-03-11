@@ -48,7 +48,14 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     ]
 
+SOCIALACCOUNT_PROVIDERS = { 
+    'google': { 
+        'SCOPE': ['profile', 'email'], 
+        'AUTH_PARAMS': { 'access_type': 'online' } 
+    }
+} 
 
+LOGIN_REDIRECT_URL = "/"
 
 # Application definition
 
@@ -96,35 +103,35 @@ INSTALLED_APPS = [
     #'allauth.socialaccount.providers.bitly',
     #'allauth.socialaccount.providers.coinbase',
     #'allauth.socialaccount.providers.dropbox',
-    'allauth.socialaccount.providers.dropbox_oauth2',
+#    'allauth.socialaccount.providers.dropbox_oauth2',
     #'allauth.socialaccount.providers.edmodo',
-    'allauth.socialaccount.providers.evernote',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.flickr',
-    'allauth.socialaccount.providers.feedly',
+#    'allauth.socialaccount.providers.evernote',
+#    'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.flickr',
+    #'allauth.socialaccount.providers.feedly',
     #'allauth.socialaccount.providers.fxa',
-    #'allauth.socialaccount.providers.github',
+#    'allauth.socialaccount.providers.github',
     #'allauth.socialaccount.providers.gitlab',
     'allauth.socialaccount.providers.google',
     #'allauth.socialaccount.providers.hubic',
-    'allauth.socialaccount.providers.instagram',
+#    'allauth.socialaccount.providers.instagram',
     #'allauth.socialaccount.providers.linkedin',
-    'allauth.socialaccount.providers.linkedin_oauth2',
+#    'allauth.socialaccount.providers.linkedin_oauth2',
     #'allauth.socialaccount.providers.odnoklassniki',
     'allauth.socialaccount.providers.openid',
     #'allauth.socialaccount.providers.persona',
     #'allauth.socialaccount.providers.pinterest',
     #'allauth.socialaccount.providers.reddit',
-    'allauth.socialaccount.providers.soundcloud',
-    'allauth.socialaccount.providers.spotify',
+    #'allauth.socialaccount.providers.soundcloud',
+    #'allauth.socialaccount.providers.spotify',
     #'allauth.socialaccount.providers.stackexchange',
     #'allauth.socialaccount.providers.stripe',
     #'allauth.socialaccount.providers.tumblr',
     #'allauth.socialaccount.providers.twitch',
-    'allauth.socialaccount.providers.twitter',
+#    'allauth.socialaccount.providers.twitter',
     #'allauth.socialaccount.providers.untappd',
-    'allauth.socialaccount.providers.vimeo',
-    'allauth.socialaccount.providers.vk',
+    #'allauth.socialaccount.providers.vimeo',
+    #'allauth.socialaccount.providers.vk',
     #'allauth.socialaccount.providers.weibo',
     #'allauth.socialaccount.providers.xing',
 ]
