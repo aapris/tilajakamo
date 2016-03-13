@@ -6,7 +6,8 @@
 
         <style type="text/css">
         header {
-            background-image: url("{{ bg_image.url }}");
+            background-image: none; 
+            /*url("{{ bg_image.url }}");*/
         }
 
         .well {
@@ -19,19 +20,26 @@
         }
 
         html, body{
-    height: 100%;
-}
+            height: 100%;
+            }
 
 
 /* header height sets static height needed for the video to be rendered in browser view port
  * for height in percent to work parent container needs to have percent value in this case body was given 100% height
 */
 header{
-    height: 90%;
+    min-height: 83%;
     position: relative;
-    background-color: red;
+    /*background-image: url("{{ bg_image.url }}");*/
+    overflow: hidden;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: auto;
 }
 
+header .header-content {
+    top: 50%;
+}
 /* hero_area div containing video needs to be the size of parent div height, thus top, left, right, bottom helps to stretch hero_area div to the size of parent by giving position absolute.
  * overflow hides the video over-flowing outside the current size of hero_area. this can be helpful to control the visible part of video by pulling it using position value in video (top / bottom/ left/ right).
 */
@@ -40,39 +48,47 @@ header{
     bottom: 0;
     left: 0;
     right: 0;
-    top: 0;
+    top: -33%;
     position: absolute;
-    overflow: hidden;
+    overflow: visible;
 }
 
 audio, canvas, video{
     display: inline-block;
+    object-fit: contain;
+
 }
 
 /* here bottom value can be set to 0 to always match the buttom part of the video with the buttom part of the containing div, in our case hero_area. I have used negative -150px to pull the video downward so that i can chop some unwanted area which overflow of parent(hero_area) will hide.
 * as width is set to 100%, and height to auto, as the width of the browser changes height is auto calculated making the video responsive
 */
 
-.hero_area video{
-    bottom: -150px;
-    position: absolute;
+.hero_area video {
+    bottom: 0px;
+    position: relative;
     width: 100%;
     height: auto;
     z-index: -1;
 }
-
         </style>
+
+        <script type="text/javascript">
+$( document ).ready(function() {
+  $('video#pretzel-video').get(0).play();
+});
+        </script>
 {% endblock %}
 
 {% block heading %}
+        {% image self.bg_image width-2000 as bg_image %}
+
     <div class="page-header section-heading">
-<!--         <div class="hero_area">
-    <video autoplay preload="auto" loop="loop" id="pretzel-video" class="video-playing">
-      <source src="{% static "home/3krs.mp4" %}" type="video/mp4">
-      <source src="{% static "home/3krs.webm" %}" type="video/webm">
+        <div class="hero_area">
+    <video  autoplay preload="auto" loop id="pretzel-video" class="video-playing" poster="{{ bg_image.url }}">
+      <source src="{% static "home/Lapinlahti-valkenee.mp4" %}" type="video/mp4">
+      <source src="{% static "home/Lapinlahti-valkenee.webm" %}" type="video/webm">
     </video>
     </div> 
-    -->
     <img src="{% static "home/img/tilajakamo_vaaka_neg.png" %}" style="width:80%" />
         <!--h1>{{ self.title }}</h1-->
         {% include "home/includes/intro.html" with intro=self.body only %}
