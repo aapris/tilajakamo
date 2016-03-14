@@ -23,7 +23,16 @@
             height: 100%;
             }
 
+@media(max-width:768px) {
 
+        .navbar-nav>li>.dropdown-menu {
+            display: block !important;
+            position: relative !important;;
+            left: -25px !important;;
+            float: right !important;;
+            top: -30px !important;
+        }
+ }       
 /* header height sets static height needed for the video to be rendered in browser view port
  * for height in percent to work parent container needs to have percent value in this case body was given 100% height
 */
