@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.wagtailapi',
 
     # Django Wiki
+    'tjwiki',
     'django.contrib.humanize',
     'django_nyt',
     'mptt',
@@ -252,4 +253,7 @@ MEDIA_URL = '/media/'
 
 WAGTAIL_SITE_NAME = "tilajakamoweb"
 SITE_ID = 1
+
+WIKI_CHECK_SLUG_URL_AVAILABLE = False
+THUMBNAIL_DEBUG = True
 
