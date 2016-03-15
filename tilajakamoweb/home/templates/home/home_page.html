@@ -52,20 +52,24 @@ header .header-content {
     overflow: visible;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .hero_area {
             top: 10%;   
     }
+
+    header {
+        min-height: 45%;
+    }
 }
 
-@media (max-width: 375px) {
+@media (min-width: 375px) {
     .hero_area {
             top: 9%;   
     }
 
     .page-header .well {
         position: relative;
-        top: 125px;
+        top: 0px;
     }
 }
 audio, canvas, video{
