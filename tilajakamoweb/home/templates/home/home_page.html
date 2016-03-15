@@ -27,7 +27,7 @@
  * for height in percent to work parent container needs to have percent value in this case body was given 100% height
 */
 header{
-    min-height: 75%;
+    min-height: 83%;
     position: relative;
     /*background-image: url("{{ bg_image.url }}");*/
     overflow: hidden;
@@ -37,7 +37,7 @@ header{
 }
 
 header .header-content {
-    top: 33%;
+    top: 50%;
 }
 /* hero_area div containing video needs to be the size of parent div height, thus top, left, right, bottom helps to stretch hero_area div to the size of parent by giving position absolute.
  * overflow hides the video over-flowing outside the current size of hero_area. this can be helpful to control the visible part of video by pulling it using position value in video (top / bottom/ left/ right).
@@ -54,7 +54,7 @@ header .header-content {
 
 @media (max-width: 768px) {
     .hero_area {
-            top: 25%;   
+            top: 33%;   
     }
 }
 
@@ -94,7 +94,7 @@ audio, canvas, video{
 
     <div class="page-header section-heading">
         <div class="hero_area">
-    <video autoplay="true" preload="auto" loop id="pretzel-video" class="video-playing" controls="false" poster="{{ bg_image.url }}">
+    <video autoplay="true" preload="auto" loop id="pretzel-video" class="video-playing" poster="{{ bg_image.url }}">
       <source src="{% static "home/Lapinlahti-valkenee.min.mp4" %}" type="video/mp4">
       <source src="{% static "home/Lapinlahti-valkenee.webm" %}" type="video/webm">
     </video>
