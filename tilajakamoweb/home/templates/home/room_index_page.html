@@ -34,24 +34,28 @@
             <div class="container">
                 <div class="row">
             <div class="list-group news">
-
 {% with rooms=self.rooms %}
     {% for room in rooms %}
 
                 {% if request.user.is_authenticated or room.public %}
-            <a class="list-group-item col-lg-3 col-md-6 col-sx-12" href="{% pageurl room %}">
+
+            <a class="list-group-item col-lg-2 col-md-3 col-sm-4 col-xs-6" href="{% pageurl room %}">
                 <h4 class="list-group-item-heading">#{{ room.title }}</h4>
-            {% if room.feed_image %}
-              <div class="container" style="float:right;overflow:hidden">
-                {% image room.feed_image width-125 as img %}
-                <img class="media-object pull-right" src="{{ img.url }}" />
+            
+            
+                {% if room.feed_image %}
+              <div style="float:left;overflow:hidden">
+                {% image room.feed_image width-150 as img %}
+                    <img class="media-object pull-left" src="{{ img.url }}" />
               </div>
-             {% endif %}
+                {% endif %}
+
                 {% if room.search_description %}
                     <p class="list-group-item-text">{{ room.search_description }}</p>
                 {% endif %}
-            </a>
+                </a>
             {% endif %}
+
     {% endfor %}
 {% endwith %}
                 {# Uses serve method defined in models.py - allows for paging if required #}
