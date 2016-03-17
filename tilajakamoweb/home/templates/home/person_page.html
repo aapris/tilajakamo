@@ -28,8 +28,9 @@
     <h3>Huone <a href="{{ self.room.url }}">#{{ self.room }}</a></h3>
     <i>{{ self.intro|richtext }}</i>
     {% if request.user.is_authenticated or self.public %}
-    <h4>Telegram<a href="https://telegram.me/lebanonsky" target="new"> @{{ self.telegram }}</a></h4>
-
+    {% if self.telegram %}
+    <h4>Telegram<a href="https://telegram.me/{{ self.telegram }}" target="new"> @{{ self.telegram }}</a></h4>
+    {% endif %}
         {% if self.biography %}
             <div class="page-header"><h3>Kuvaus</h3></div>
         {% endif %}
