@@ -37,7 +37,7 @@ header{
 }
 
 header .header-content {
-    top: 45%;
+    top: 51%;
 }
 /* hero_area div containing video needs to be the size of parent div height, thus top, left, right, bottom helps to stretch hero_area div to the size of parent by giving position absolute.
  * overflow hides the video over-flowing outside the current size of hero_area. this can be helpful to control the visible part of video by pulling it using position value in video (top / bottom/ left/ right).
@@ -52,17 +52,17 @@ header .header-content {
     overflow: visible;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .hero_area {
             top: 10%;   
     }
 
     header {
-        min-height: 45%;
+        min-height: 51%;
     }
 }
 
-@media (min-width: 375px) {
+@media (max-width: 375px) {
     .hero_area {
             top: 9%;   
     }
