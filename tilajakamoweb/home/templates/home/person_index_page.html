@@ -29,14 +29,14 @@
             <div class="row list-group">
     {% for person in self.persons %}
                 {% if request.user.is_authenticated or person.public %}
-                <a class="news list-group-item col-lg-3 col-md-3 col-sm-4 col-xs-6"  href="{% pageurl person %}">
+                <a class="news list-group-item col-lg-3 col-md-3 col-sm-4 col-xs-6"  style="width:24%" href="{% pageurl person %}">
                 <h5 >{{ person.title }}</h5>
                 <h4 >{{ person.first_name }} {{ person.last_name }}</h4>
-                <h5 >#{{ person.room }}</h5>
+                <strong>#{{ person.room }}</strong>
                 {% if person.telegram %}
                     <h5>Telegram @{{ person.telegram }}</h5>
                 {% endif %}            
-                    <strong>{{ person.intro|safe }}</strong>
+                    <i>{{ person.intro|safe }}</i>
                 {% if person.feed_image %}
                 <div class="media-left">
                 {% image person.feed_image width-270 as img %}
