@@ -22,6 +22,16 @@
 {% endblock %}
 
 {% block content %}
+{% if request.user.is_authenticated %}
+    <section class="news" style="padding:10px 10px">
+            <div class="container">
+                <div class="row">
+                {{ self.intro|safe }}
+                </div>
+                </div>
+                </section>
+                {% endif %}
+
     <section class="news" style="padding:10px 10px">
             <div class="container">
                 <div class="row">
@@ -29,15 +39,15 @@
 
 {% with faqs=self.faqs %}
     {% for faq in faqs %}
-                <!-- if request.user.is_authenticated or faq.public -->
+                {% if request.user.is_authenticated or faq.public %}
             <a class="list-group-item col-lg-12 col-md-12 col-sx-12" href="{% pageurl faq %}">
                 <h4 class="list-group-item-heading">{{ faq.title }}</h4>
             {% for tag in faq.tags.all %}
           <i class="glyphicon glyphicon-tag tiny"></i> <i>{{ tag }}</i>
           {% endfor %}
-          
             </a>
-            <!-- endif -->
+            {% endif %}
+
     {% endfor %}
 {% endwith %}
 
