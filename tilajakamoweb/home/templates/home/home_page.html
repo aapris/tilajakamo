@@ -17,17 +17,25 @@
         #news a, #events a, .news a {
             background: transparent url("{% static "home/img/transpBrown10.png" %}");
             padding: 10px;
+            border: 1px solid #ccc;
         }
 
         html, body{
             height: 100%;
             }
-      
+
+        .advert-list li {
+            margin: 5px;
+        }    
+
+        .advert-list li .img-thumbnail {
+            border: 0px;
+        }      
 /* header height sets static height needed for the video to be rendered in browser view port
  * for height in percent to work parent container needs to have percent value in this case body was given 100% height
 */
 header{
-    min-height: 83%;
+    min-height: 75%;
     position: relative;
     /*background-image: url("{{ bg_image.url }}");*/
     overflow: hidden;
