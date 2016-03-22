@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from datetime import date
 
 from django.db import models
@@ -166,7 +169,7 @@ class CarouselItem(LinkFields):
 # Related links
 
 class RelatedLink(LinkFields):
-    title = models.CharField(max_length=255, help_text="Link title")
+    title = models.CharField(max_length=255, help_text=u"Link title")
 
     panels = [
         FieldPanel('title'),
@@ -331,12 +334,12 @@ StandardPage.promote_panels = Page.promote_panels + [
 # Room
 
 class RoomPage(Page):
-    free = models.BooleanField(default=False)
+    free = models.BooleanField(default=False, help_text=u"Jos haluat ilmoittaa huoneen olevan osittain, kokonaan tai määräaikaisesti vuokrattavissa.")
     body = RichTextField(blank=True)
-    public = models.BooleanField(default=True)
-    start = models.DateField("From", blank=True, null=True)
-    end = models.DateField("To", blank=True, null=True)
-    ad = RichTextField(blank=True)
+    public = models.BooleanField(default=True, help_text=u"Onko huoneen tiedot julkiset myös osuuskunnan ulkopuolisille?")
+    start = models.DateField("From", blank=True, null=True,help_text=u"Vapaa alkaen")
+    end = models.DateField("To", blank=True, null=True, help_text=u"Vapaa asti")
+    ad = RichTextField(blank=True,help_text=u"Vuokrauksen mainosteksti. Kerro huoneestasi jotain mukavaa.")
     # member = models.ForeignKey('home.PersonPage',         
     #     null=True,
     #     blank=True,
@@ -635,22 +638,24 @@ class PersonPageRelatedLink(Orderable, RelatedLink):
 class PersonPage(Page, ContactFields):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    telegram = models.CharField(blank=True, max_length=255)
-    public = models.BooleanField(default=True)
+    telegram = models.CharField(blank=True, max_length=255, help_text=u"Telegram-linkki")
+    public = models.BooleanField(default=True, help_text=u"Onko sivusi julkinen myös osuuskunnan ulkopuolisille")
     room = models.ForeignKey('home.RoomPage',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        help_text=u"Huoneesi numero"
     )
-    intro = RichTextField(blank=True)
-    biography = RichTextField(blank=True)
+    intro = RichTextField(blank=True, help_text=u"Lyhyt esittely, joka näkyy myös Telergram-botin kyselyssä!")
+    biography = RichTextField(blank=True, help_text=u"Pidempi kuvaus itsestäsi.")
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        help_text=u"Huoneen tai muu kuva, joka näkyy myös huoneesi sivulla."
     )
 
     search_fields = Page.search_fields + (
@@ -847,7 +852,7 @@ class EventPage(Page):
         "End date",
         null=True,
         blank=True,
-        help_text="Not required if event is on a single day"
+        help_text=u"Not required if event is on a single day"
     )
     time_from = models.TimeField("Start time", null=True, blank=True)
     time_to = models.TimeField("End time", null=True, blank=True)
