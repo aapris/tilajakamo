@@ -62,7 +62,6 @@ LOGIN_REDIRECT_URL = "/"
 INSTALLED_APPS = [
     'home',
     'search',
-    'rosetta',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -249,6 +248,9 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/'
 
 # Wagtail settings
 
