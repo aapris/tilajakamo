@@ -11,3 +11,7 @@ Pillow
 wiki
 reportlab
 
+#sorl-thumbnail>12.3  # 12.3 is broken
+
+# i18n
+django-rosetta
