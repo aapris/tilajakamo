@@ -62,6 +62,7 @@ LOGIN_REDIRECT_URL = "/"
 INSTALLED_APPS = [
     'home',
     'search',
+    'rosetta',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
