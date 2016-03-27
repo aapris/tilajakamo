@@ -146,22 +146,22 @@ audio, canvas, video{
     </div>
 </section>
 
+{% if self.rooms %}
 <section class="" id="rooms" style="padding:10px 10px">
         <h2 class="section-heading">Vapaat huoneet</h2>
         <div class="container">
             <div class="row">
 
-    {% if self.rooms %}
     <div class="col-lg-12 text-center news">
       {% for room in self.rooms %}
         {% include "home/includes/room_list_item.html" %}
       {% endfor %}
     </div>
   
-    {% endif %}
         </div>
     </div>
 </section>
+{% endif %}
 
 {% endblock %}
 <hr />
