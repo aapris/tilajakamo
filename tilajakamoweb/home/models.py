@@ -336,7 +336,7 @@ StandardPage.promote_panels = Page.promote_panels + [
 class RoomPage(Page):
     free = models.BooleanField(default=False, help_text=u"Jos haluat ilmoittaa huoneen olevan osittain, kokonaan tai määräaikaisesti vuokrattavissa.")
     body = RichTextField(blank=True)
-    public = models.BooleanField(default=True, help_text=u"Onko huoneen tiedot julkiset myös osuuskunnan ulkopuolisille?")
+    public = models.BooleanField(verbose_name="public", default=True, help_text=u"Onko huoneen tiedot julkiset myös osuuskunnan ulkopuolisille?")
     start = models.DateField("From", blank=True, null=True,help_text=u"Vapaa alkaen")
     end = models.DateField("To", blank=True, null=True, help_text=u"Vapaa asti")
     ad = RichTextField(blank=True,help_text=u"Vuokrauksen mainosteksti. Kerro huoneestasi jotain mukavaa.")
@@ -443,7 +443,7 @@ class BlogPageTag(TaggedItemBase):
 class BlogPage(Page):
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
-    public = models.BooleanField(default=True)
+    public = models.BooleanField(verbose_name="public", default=True)
     date = models.DateField("Post date")
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -639,7 +639,7 @@ class PersonPage(Page, ContactFields):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     telegram = models.CharField(blank=True, max_length=255, help_text=u"Telegram-linkki")
-    public = models.BooleanField(default=True, help_text=u"Onko sivusi julkinen myös osuuskunnan ulkopuolisille")
+    public = models.BooleanField(verbose_name="public", default=True, help_text=u"Onko sivusi julkinen myös osuuskunnan ulkopuolisille")
     room = models.ForeignKey('home.RoomPage',
         null=True,
         blank=True,
