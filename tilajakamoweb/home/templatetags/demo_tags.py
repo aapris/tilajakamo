@@ -107,9 +107,11 @@ def person_index_listing(context, calling_page):
     takes_context=True
 )
 def person_listing_homepage(context, count=2):
-    people = PersonPage.objects.live().order_by('?')
+    people = PersonPage.objects.live()
+    request = context['request']
     return {
         'people': people[:count].select_related('feed_image'),
+        'my': people.filter(owner=request.user.id)[:1],
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

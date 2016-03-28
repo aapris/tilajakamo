@@ -245,6 +245,10 @@ class HomePage(Page):
         rooms = RoomPage.objects.live()
         return rooms.filter(free=True)
 
+    def mypages(self, request):
+        mypages = PersonPage.objects.live()
+        return mypages#.filter(owner=request.user.id)
+
     class Meta:
         verbose_name = "Homepage"
 
@@ -664,6 +668,11 @@ class PersonPage(Page, ContactFields):
         index.SearchField('telegram'),
         index.SearchField('intro'),
         index.SearchField('biography'),
+        index.FilterField('first_name'),
+        index.FilterField('last_name'),
+        index.FilterField('telegram'),
+        index.FilterField('intro'),
+        index.FilterField('biography'),
     )
 
     api_fields = ('public', 'room','telegram','last_name','first_name','intro')
