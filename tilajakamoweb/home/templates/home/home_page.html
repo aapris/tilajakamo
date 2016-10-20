@@ -98,7 +98,43 @@ audio, canvas, video{
     z-index: -1;
 }
         </style>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("feeds", "1");
 
+
+var feedcontainer =document.getElementById("newsfeed")
+var feedurl="http://139.162.147.227/news.rss?nocache"
+var feedlimit=12
+var rssoutput=""
+
+
+function rssfeedsetup(){
+    var feedpointer=new google.feeds.Feed(feedurl) //Google Feed API method
+    feedpointer.setNumEntries(feedlimit) //Google Feed API method
+    feedpointer.load(displayfeed) //Google Feed API method
+}
+
+function displayfeed(result){
+    if (!result.error){
+        var thefeeds=result.feed.entries
+        for (var i=0; i<thefeeds.length; i++) { 
+            rssoutput+="<div class='col-sm-12 col-md-6 col-lg-4 text-center' >" + thefeeds[i].title + "</div>"
+        // rssoutput+=""
+    }
+        document.getElementById("newsfeed").innerHTML=rssoutput
+    } else {
+        alert("Error fetching feeds!")
+    }
+}
+
+google.setOnLoadCallback(rssfeedsetup);
+
+// window.onload=function(){
+//     console.log(feedcontainer).val()
+//     rssfeedsetup()
+// }
+</script>
 {% endblock %}
 
 {% block heading %}
@@ -124,26 +160,26 @@ audio, canvas, video{
 {% person_listing_homepage %}
 
 <section class="" id="news" style="padding:10px 10px">
-        <h2 class="section-heading">Uutisia</h2>
+        <h2 class="section-heading">Ajankohtaista</h2>
         <div class="">
-            <div class="row">
+            <div class="row" id="newsfeed">
 
-    {% blog_listing_homepage %}
+    {# {% blog_listing_homepage %} #}
 
             </div>
         </div>
         </section>
 
-<section class="bg-primary" id="events" style="padding:10px 10px">
+<!-- <section class="bg-primary" id="events" style="padding:10px 10px">
         <h2 class="section-heading">Tapahtumia</h2>
         <div class="">
             <div class="row">
 
-    {% event_listing_homepage %}
+    {# {% event_listing_homepage %} #}
 
         </div>
     </div>
-</section>
+</section> -->
 
 {% if self.rooms %}
 <section class="" id="rooms" style="padding:10px 10px">
