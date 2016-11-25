@@ -26,15 +26,20 @@
 
 <section class="news">
         <div class="container">
-            <div class="row col-lg-8 row-centered">
+            <div class="row col-lg-12 col-md-6 col-sx-4 row-centered">
       <h2>Huone #{{ self.title }}</h2>
+    {% if self.feed_image %}
+      <div class="pull-right">
+         {% image self.feed_image width-600 class="img-thumbnail pull-right" %}
+         </div>
+      {% endif %}
+    {% if self.body %}
+    <div><b>{{ self.body|richtext }}</b></div>
+    {% endif %}
 
     {% if self.free %}
         {% if self.body %}
             <div class="container well">
-                {% if self.feed_image %}
-                     {% image self.feed_image width-300 class="img-thumbnail pull-right" %}
-              {% endif %}
                 {{ self.body|richtext }}
                   <p><strong>Vuokrattavissa: {{ self.start }}{% if self.end %} -- {{ self.end }}{% endif %}</strong>
                   {{ self.ad|richtext }}</p>
@@ -45,13 +50,14 @@
 
         {% if self.member.public or request.user.is_authenticated %}
                 <h4>Osuuskuntalainen:</h4> 
+                {% if self.member.intro %}
                 <i>"{{ self.member.intro|richtext }}"</i>
-                {% if self.member.feed_image %}
-                    {% image self.member.feed_image width-300 class="img-thumbnail pull-right" %}
                 {% endif %}
                 <ul>
                 <li><a href="/me/{{ self.member.slug }}">{{ self.member.title }} <br/>{{ self.member.first_name }} {{ self.member.last_name }}</a></li>
-                <li>@{{ self.member.telegram }}</li>
+                {% if self.member.telegram %}
+                <li>
+                @{{ self.member.telegram }}</li>{% endif %}
                 </ul>
             {% endif %}
         

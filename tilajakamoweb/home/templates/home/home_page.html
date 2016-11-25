@@ -97,7 +97,39 @@ audio, canvas, video{
     height: auto;
     z-index: -1;
 }
-        </style>
+
+.news {
+    padding: 5px;
+    margin:10px;
+    height: 175px;
+    overflow: hidden;
+}
+
+#newsfeed {
+   -webkit-column-count: 2;
+      -moz-column-count: 2;
+           column-count: 2;
+
+   -webkit-column-gap: 40px;
+      -moz-column-gap: 40px;
+           column-gap: 40px;
+}
+
+p.line::first-line {
+    font-weight: bold;
+}
+
+
+
+@media (min-width: 1200px) {
+
+        .col-lg-3 {
+            width: 24% !important;
+        }
+}
+
+</style>
+
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
   google.load("feeds", "1");
@@ -119,7 +151,7 @@ function displayfeed(result){
     if (!result.error){
         var thefeeds=result.feed.entries
         for (var i=0; i<thefeeds.length; i++) { 
-            rssoutput+="<div class='col-sm-12 col-md-6 col-lg-4 text-center' >" + thefeeds[i].title + "</div>"
+            rssoutput+="<p class='line'>"+thefeeds[i].title + "</p>"
         // rssoutput+=""
     }
         document.getElementById("newsfeed").innerHTML=rssoutput
@@ -160,15 +192,15 @@ google.setOnLoadCallback(rssfeedsetup);
 {% person_listing_homepage %}
 
 <section class="" id="news" style="padding:10px 10px">
+        <div class="container">
         <h2 class="section-heading">Ajankohtaista</h2>
-        <div class="">
             <div class="row" id="newsfeed">
 
     {# {% blog_listing_homepage %} #}
 
             </div>
         </div>
-        </section>
+</section>
 
 <!-- <section class="bg-primary" id="events" style="padding:10px 10px">
         <h2 class="section-heading">Tapahtumia</h2>
@@ -183,8 +215,8 @@ google.setOnLoadCallback(rssfeedsetup);
 
 {% if self.rooms %}
 <section class="" id="rooms" style="padding:10px 10px">
+        <div class="container">
         <h2 class="section-heading">Vapaat huoneet</h2>
-        <div class="">
             <div class="row">
 
     <div class="col-lg-12 text-center news">

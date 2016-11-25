@@ -3,24 +3,23 @@
 {% if adverts %}
 <section>
 <div class="container">
-<div class="row col-lg-12">
+<div class="row">
 
   <ul class="advert-list list-inline">
     {% for advert in adverts %}
-      <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12" style="min-height:150px;margin:10px auto; padding:20px 10px; border: 1px solid #ddd">
+      <li class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="min-height:225px;margin:10px auto; padding:20px 10px; border: 0px solid #ddd">
         {% if advert.url %}
           <a href="{{ advert.url }}" style="color: #444 !important;">
         {% elif advert.page %}
-          <a href="{% pageurl advert.page %}">
+          <a href="{% pageurl advert.page %}" title="{{ advert.text }}">
         {% endif %}
         {% if advert.feed_image %}
                 {% image advert.feed_image width-200 class="img-thumbnail" %}<br/>
         {% endif %}
-          {{ advert.text }}
         
         {% if advert.url or advert.page %}</a>{% endif %}
       </li>
-      {% if not forloop.last %}<li><strong>·</strong></li>{% endif %}
+      {% if not forloop.last %}{% endif %}
     {% endfor %}
   </ul>
   </div>

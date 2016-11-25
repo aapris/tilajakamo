@@ -237,9 +237,9 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    search_fields = Page.search_fields + (
-        index.SearchField('body'),
-    )
+    # search_fields = Page.search_fields + (
+    #     index.SearchField('body'),
+    # )
 
     def rooms(self):
         rooms = RoomPage.objects.live()
@@ -368,7 +368,7 @@ class RoomPage(Page):
     def member(self):
         try:
             member = PersonPage.objects.filter(room = self).values('title','first_name','last_name','slug','public','intro','telegram')
-            return member[0]
+            return member
         except:
             return
             
@@ -407,13 +407,24 @@ class RoomIndexPage(Page):
 
     def rooms(self):
         # Get list of live blog pages that are descendants of this page
-        rooms = RoomPage.objects.live().descendant_of(self)
+        rooms = RoomPage.objects.live().child_of(self)
+        # rooms.append(RoomIndexPage.objects.live().child_of(self))
 
         # Order by most recent date first
         rooms = rooms.order_by('title')
 
         return rooms
+    
+    def rooms2(self):
+        # Get list of live blog pages that are descendants of this page
+        rooms = RoomIndexPage.objects.live().child_of(self)
+        # rooms.append(RoomIndexPage.objects.live().child_of(self))
 
+        # Order by most recent date first
+        rooms = rooms.order_by('title')
+
+        return rooms
+        
     # @property
     # def rooms(self):
     #     # Get list of live blog pages that are descendants of this page
