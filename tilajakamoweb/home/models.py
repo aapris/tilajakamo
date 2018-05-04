@@ -26,7 +26,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
-from utils import export_event
+from .utils import export_event
 
 
 EVENT_AUDIENCE_CHOICES = (
@@ -237,9 +237,9 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    # search_fields = Page.search_fields + (
+    # search_fields = Page.search_fields + [
     #     index.SearchField('body'),
-    # )
+    # ]
 
     def rooms(self):
         rooms = RoomPage.objects.live()
@@ -280,9 +280,9 @@ class StandardIndexPage(Page):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('intro'),
-    )
+    ]
 
 StandardIndexPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -316,10 +316,10 @@ class StandardPage(Page):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('intro'),
         index.SearchField('body'),
-    )
+    ]
 
 StandardPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -358,10 +358,10 @@ class RoomPage(Page):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('body'),
         index.SearchField('free'),
-    )
+    ]
 
     api_fields = ('public', 'member', 'body','free','start','end')
 
@@ -399,11 +399,11 @@ class RoomIndexPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('title'),
         index.SearchField('member'),
         index.SearchField('body'),
-    )
+    ]
 
     def rooms(self):
         # Get list of live blog pages that are descendants of this page
@@ -468,9 +468,9 @@ class BlogPage(Page):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('body'),
-    )
+    ]
 
     api_fields = ('public', 'date', 'body')
 
@@ -506,9 +506,9 @@ class BlogIndexPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('intro'),
-    )
+    ]
 
     @property
     def blogs(self):
@@ -577,10 +577,10 @@ class FAQPage(Page):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('body'),
         index.SearchField('free'),
-    )
+    ]
 
     @property
     def faq_index(self):
@@ -613,10 +613,10 @@ class FAQIndexPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('title'),
         index.SearchField('body'),
-    )
+    ]
 
     def faqs(self):
         # Get list of live blog pages that are descendants of this page
@@ -673,7 +673,7 @@ class PersonPage(Page, ContactFields):
         help_text=u"Huoneen tai muu kuva, joka näkyy myös huoneesi sivulla."
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('first_name'),
         index.SearchField('last_name'),
         index.SearchField('telegram'),
@@ -684,7 +684,7 @@ class PersonPage(Page, ContactFields):
         index.FilterField('telegram'),
         index.FilterField('intro'),
         index.FilterField('biography'),
-    )
+    ]
 
     api_fields = ('public', 'room','telegram','last_name','first_name','intro')
 
@@ -774,9 +774,9 @@ class ContactPage(Page, ContactFields):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('body'),
-    )
+    ]
 
 ContactPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -804,9 +804,9 @@ class EventIndexPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('intro'),
-    )
+    ]
 
     @property
     def events(self):
@@ -889,11 +889,11 @@ class EventPage(Page):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
+    search_fields = Page.search_fields + [
         index.SearchField('get_audience_display'),
         index.SearchField('location'),
         index.SearchField('body'),
-    )
+    ]
 
     @property
     def event_index(self):
